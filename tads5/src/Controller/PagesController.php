@@ -20,7 +20,9 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
+use Cake\ORM\Exception\PersistenceFailedException;
 use Cake\View\Exception\MissingTemplateException;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * Static content controller
@@ -51,25 +53,27 @@ class PagesController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
-    public function findUser()
+    public function getUsers()
     {
         $response = null;
         $statusCode = 200;
-        $id = 1;
 
-        $sql = "SELECT *
-                  FROM USERS
-                 ORDER BY NOME ASC";
-        debug($sql);
+        if ($this->request->is("post") && !empty($this->request->getData("id")[0])) {
+            $sql = "SELECT *
+                      FROM USERS
+                     WHERE ID = :id";
 
-        $sql = "SELECT *
-                  FROM USERS
-                 WHERE ID = :id
-                 ORDER BY NOME ASC";
-        debug($sql);
-        exit;
+            $id = $this->request->getData("id")[0];
+            $filtro = ["id" => $id];
+        }
+        else {
+            $sql = "SELECT *
+                      FROM USERS
+                     ORDER BY NOME ASC";
+            $filtro = [];
+        }
 
-        $response = $GLOBALS["connection"]->execute($sql, ["id" => $id])->fetchAll("assoc");
+        $response = $GLOBALS["connection"]->execute($sql, $filtro)->fetchAll("assoc");
 
         return $this->response
             ->withHeader('Access-Control-Allow-Origin', '*')
@@ -78,23 +82,6 @@ class PagesController extends AppController
             ->withStringBody(json_encode($response));
     }
 
-    public function listUsers()
-    {
-        $response = null;
-        $statusCode = 200;
-
-        $sql = "SELECT *
-                  FROM USERS
-                 ORDER BY NOME ASC";
-
-        $response = $GLOBALS["connection"]->execute($sql)->fetchAll("assoc");
-
-        return $this->response
-        ->withHeader('Access-Control-Allow-Origin', '*')
-        ->withStatus($statusCode)
-        ->withType('application/json')
-        ->withStringBody(json_encode($response));
-    }
     public function addUser()
     {
         $response = null;
@@ -103,14 +90,31 @@ class PagesController extends AppController
         if ($this->request->is("post"))
         {
             $user = $this->Users->newEmptyEntity();
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            // debug($user);
-            // debug($this->request->getData());
+            $dados = $this->request->getData();
 
-            if ($this->Users->save($user))
+            $user = $this->Users->patchEntity($user, $dados);
+
+            try {
+                $this->Users->saveOrFail($user);
+                $response = "Usuário adicionado com sucesso.";
+            }
+            catch (PersistenceFailedException $e) {
+                $statusCode = 400;
+                $response = $e->getAttributes();
+            }
+
+            /*
+            $salvar = $this->Users->save($user);
+            if ($salvar)
             {
                 $response = "Usuário adicionado com sucesso.";
             }
+            */
+        }
+        else
+        {
+            $statusCode = 400;
+            $response = "Parâmetros de requisição inválidos: faltam os dados do usuário.";
         }
 
         return $this->response

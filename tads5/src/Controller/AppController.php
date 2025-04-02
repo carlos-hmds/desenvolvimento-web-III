@@ -38,7 +38,7 @@ class AppController extends Controller
         parent::beforeFilter($event);
 
         if (empty($this->request->getHeader("Authentication"))
-         || $this->request->getHeader("Authentication")[0] !== $GLOBALS['token'])
+         || $this->request->getHeader("Authentication")[0] !== $GLOBALS["token"])
         {
             // $this->Flash->error("Você não possui autorização para acessar esse recurso no sistema.");
             throw new UnauthorizedException("Você não possui autorização para acessar esse recurso no sistema.");
@@ -67,8 +67,7 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
 
-        $GLOBALS['connection'] = ConnectionManager::get("default");
-        $GLOBALS['token'] = 'f8Jf1Eo7S67jjlU2O46OiJ2zzuOrBEWgErlbpAYS7tbYofjuWz';
-
+        $GLOBALS["connection"] = ConnectionManager::get("default");
+        $GLOBALS["token"] = "f8Jf1Eo7S67jjlU2O46OiJ2zzuOrBEWgErlbpAYS7tbYofjuWz";
     }
 }

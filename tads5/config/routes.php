@@ -55,7 +55,7 @@ return function (RouteBuilder $routes): void {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/listUsers', ['controller' => 'Pages', 'action' => 'listUsers']);
+        $builder->connect('/getUsers', ['controller' => 'Pages', 'action' => 'getUsers']);
         $builder->connect('/addUser', ['controller' => 'Pages', 'action' => 'addUser']);
 
         /*
