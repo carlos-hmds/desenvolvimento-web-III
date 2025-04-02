@@ -1,0 +1,3 @@
+cake bake migration CreateUsers nome:string[180] celular:string[15] dtNasc:date email:string[180] ativo:string[1] created modified
+cake migrations migrate
+cake bake model Users
