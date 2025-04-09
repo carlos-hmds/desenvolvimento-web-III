@@ -15,14 +15,14 @@ class CreateAutenticacaos extends BaseMigration
     public function change(): void
     {
         $table = $this->table('autenticacaos');
-        $table->addColumn('cpf', 'string', [
-            'default' => null,
-            'limit' => 14,
-            'null' => false,
-        ]);
         $table->addColumn('autenticacao', 'string', [
             'default' => null,
-            'limit' => 256,
+            'limit' => 255,
+            'null' => false,
+        ]);
+        $table->addColumn('user_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
             'null' => false,
         ]);
         $table->addColumn('ativo', 'string', [

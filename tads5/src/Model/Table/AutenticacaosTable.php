@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Autenticacaos Model
  *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\Autenticacao newEmptyEntity()
  * @method \App\Model\Entity\Autenticacao newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Autenticacao> newEntities(array $data, array $options = [])
@@ -40,10 +42,15 @@ class AutenticacaosTable extends Table
         parent::initialize($config);
 
         $this->setTable('autenticacaos');
-        $this->setDisplayField('cpf');
+        $this->setDisplayField('autenticacao');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER',
+        ]);
     }
 
     /**
@@ -55,16 +62,14 @@ class AutenticacaosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->scalar('cpf')
-            ->maxLength('cpf', 14)
-            ->requirePresence('cpf', 'create')
-            ->notEmptyString('cpf');
-
-        $validator
             ->scalar('autenticacao')
-            ->maxLength('autenticacao', 256)
+            ->maxLength('autenticacao', 255)
             ->requirePresence('autenticacao', 'create')
             ->notEmptyString('autenticacao');
+
+        $validator
+            ->integer('user_id')
+            ->notEmptyString('user_id');
 
         $validator
             ->scalar('ativo')
@@ -72,5 +77,19 @@ class AutenticacaosTable extends Table
             ->notEmptyString('ativo');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
+
+        return $rules;
     }
 }

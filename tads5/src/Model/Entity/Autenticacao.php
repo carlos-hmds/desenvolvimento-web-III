@@ -9,11 +9,13 @@ use Cake\ORM\Entity;
  * Autenticacao Entity
  *
  * @property int $id
- * @property string $cpf
  * @property string $autenticacao
+ * @property int $user_id
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
+ *
+ * @property \App\Model\Entity\User $user
  */
 class Autenticacao extends Entity
 {
@@ -27,10 +29,11 @@ class Autenticacao extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'cpf' => true,
         'autenticacao' => true,
+        'user_id' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,
+        'user' => true,
     ];
 }

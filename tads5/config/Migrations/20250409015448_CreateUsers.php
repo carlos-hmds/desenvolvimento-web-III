@@ -57,6 +57,20 @@ class CreateUsers extends BaseMigration
             'default' => null,
             'null' => false,
         ]);
+        $table->addIndex([
+            'cpf',
+
+            ], [
+            'name' => 'UNIQUE_CPF',
+            'unique' => true,
+        ]);
+        $table->addIndex([
+            'email',
+
+            ], [
+            'name' => 'UNIQUE_EMAIL',
+            'unique' => true,
+        ]);
         $table->create();
     }
 }

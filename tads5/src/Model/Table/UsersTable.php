@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \App\Model\Table\AutenticacaosTable&\Cake\ORM\Association\HasMany $Autenticacaos
+ *
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\User> newEntities(array $data, array $options = [])
@@ -44,6 +46,10 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('Autenticacaos', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**
@@ -64,7 +70,8 @@ class UsersTable extends Table
             ->scalar('cpf')
             ->maxLength('cpf', 14)
             ->requirePresence('cpf', 'create')
-            ->notEmptyString('cpf');
+            ->notEmptyString('cpf')
+            ->add('cpf', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
@@ -86,7 +93,8 @@ class UsersTable extends Table
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmptyString('email');
+            ->notEmptyString('email')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('ativo')
@@ -105,6 +113,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->isUnique(['cpf']), ['errorField' => 'cpf']);
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
 
         return $rules;
