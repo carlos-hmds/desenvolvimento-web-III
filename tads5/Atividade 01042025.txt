@@ -14,8 +14,8 @@ Tabela users: criar campos
 	- email:string[180]
 
 Tabela autenticacaos: criar tabela e campos
-	- cpf: varchar(14)
 	- autenticacao: varchar(128)
+	- user_id: integer
 
 Tabela categorias:
 	- descricao: varchar(64)

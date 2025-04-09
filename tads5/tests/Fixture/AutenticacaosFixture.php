@@ -20,11 +20,11 @@ class AutenticacaosFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'cpf' => 'Lorem ipsum ',
                 'autenticacao' => 'Lorem ipsum dolor sit amet',
+                'user_id' => 1,
                 'ativo' => 'L',
-                'created' => '2025-04-07 19:56:02',
-                'modified' => '2025-04-07 19:56:02',
+                'created' => '2025-04-08 22:04:53',
+                'modified' => '2025-04-08 22:04:53',
             ],
         ];
         parent::init();

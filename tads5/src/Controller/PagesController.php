@@ -22,6 +22,7 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\ORM\Exception\PersistenceFailedException;
 use Cake\View\Exception\MissingTemplateException;
+use mysql_xdevapi\Exception;
 use function PHPUnit\Framework\isEmpty;
 
 /**
@@ -34,11 +35,20 @@ use function PHPUnit\Framework\isEmpty;
 class PagesController extends AppController
 {
     private \Cake\ORM\Table $Users;
+    private \Cake\ORM\Table $Autenticacaos;
+
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        // $this->Authentication->allowUnauthenticated(['login']);
+    }
 
     public function initialize(): void
     {
         parent::initialize();
         $this->Users = $this->fetchTable("Users");
+        $this->Autenticacaos = $this->fetchTable("Autenticacaos");
     }
 
     /**
@@ -94,11 +104,13 @@ class PagesController extends AppController
 
             $user = $this->Users->patchEntity($user, $dados);
 
-            try {
+            try
+            {
                 $this->Users->saveOrFail($user);
                 $response = "Usuário adicionado com sucesso.";
             }
-            catch (PersistenceFailedException $e) {
+            catch (PersistenceFailedException $e)
+            {
                 $statusCode = 400;
                 $response = $e->getAttributes();
             }
@@ -122,5 +134,67 @@ class PagesController extends AppController
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
+    }
+
+    public function login()
+    {
+        $response = null;
+        $statusCode = 200;
+        $this->loadComponent("Authentication.Authentication");
+
+        $result = $this->Authentication->getResult();
+
+        if ($result && $result->isValid()) {
+            $autenticacao = $this->Autenticacaos->newEmptyEntity();
+
+            // Gerar hash combinando a senha do usuário com a data atual
+            $hash = $this->request->getData("password") . date("YmdHis");
+            $hash = hash("sha256", $hash);
+            // $hash = password_hash($this->request->getData("password"), PASSWORD_DEFAULT);
+            $autenticacao["autenticacao"] = $hash;
+            $user_id = $result->getData()["id"];
+            $autenticacao["user_id"] = $user_id;
+
+            try {
+                $sql = "DELETE FROM AUTENTICACAOS
+                         WHERE USER_ID = :user_id";
+
+                $GLOBALS["connection"]->execute($sql, ["user_id" => $user_id]);
+
+                $this->Autenticacaos->saveOrFail($autenticacao);
+                $response["mensagem"] = "Login realizado com sucesso";
+                $response["hash"] = $autenticacao["autenticacao"];
+            }
+            catch (PersistenceFailedException $e) {
+                $statusCode = 400;
+                $response = $e->getAttributes();
+            }
+
+        }
+        else {
+            $statusCode = 400;
+            $response = "Ocorreu um erro ao realizar o login.";
+        }
+
+        return $this->response
+            ->withHeader("Access-Control-Allow-Origin", "+")
+            ->withStatus($statusCode)
+            ->withType("aplication/json")
+            ->withStringBody(json_encode($response));
+
+        //$target = $this->Authentication->getLoginRedirect() ?? '/home';
+        //return $this->redirect($target);
+
+        /*
+        if ($this->request->is('post')) {
+            $this->Flash->error('Invalid username or password');
+        }
+        */
+    }
+
+    public function logout()
+    {
+        $this->Authentication->logout();
+        //return $this->redirect(['controller' => 'Pages', 'action' => 'login']);
     }
 }

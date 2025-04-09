@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\ORM\Entity;
 
 /**
  * User Entity
@@ -19,6 +19,8 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
+ *
+ * @property \App\Model\Entity\Autenticacao[] $autenticacaos
  */
 class User extends Entity
 {
@@ -41,6 +43,7 @@ class User extends Entity
         'ativo' => true,
         'created' => true,
         'modified' => true,
+        'autenticacaos' => true,
     ];
 
     /**

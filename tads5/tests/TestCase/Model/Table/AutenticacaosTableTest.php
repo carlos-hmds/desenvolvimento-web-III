@@ -25,6 +25,7 @@ class AutenticacaosTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.Autenticacaos',
+        'app.Users',
     ];
 
     /**
@@ -58,6 +59,17 @@ class AutenticacaosTableTest extends TestCase
      * @uses \App\Model\Table\AutenticacaosTable::validationDefault()
      */
     public function testValidationDefault(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     * @uses \App\Model\Table\AutenticacaosTable::buildRules()
+     */
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

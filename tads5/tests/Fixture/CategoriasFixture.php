@@ -22,8 +22,8 @@ class CategoriasFixture extends TestFixture
                 'id' => 1,
                 'descricao' => 'Lorem ipsum dolor sit amet',
                 'ativo' => 'L',
-                'created' => '2025-04-07 19:56:07',
-                'modified' => '2025-04-07 19:56:07',
+                'created' => '2025-04-08 22:04:58',
+                'modified' => '2025-04-08 22:04:58',
             ],
         ];
         parent::init();
