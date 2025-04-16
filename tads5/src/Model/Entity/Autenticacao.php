@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $autenticacao
  * @property int $user_id
+ * @property \Cake\I18n\Date $expiracao
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
@@ -31,6 +32,7 @@ class Autenticacao extends Entity
     protected array $_accessible = [
         'autenticacao' => true,
         'user_id' => true,
+        'expiracao' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,

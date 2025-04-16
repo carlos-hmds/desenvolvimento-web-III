@@ -154,6 +154,7 @@ class PagesController extends AppController
             $autenticacao["autenticacao"] = $hash;
             $user_id = $result->getData()["id"];
             $autenticacao["user_id"] = $user_id;
+            $autenticacao["expiracao"] = date("Y-m-d", strtotime("+4 days"));
 
             try {
                 $sql = "DELETE FROM AUTENTICACAOS

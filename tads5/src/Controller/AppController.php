@@ -71,8 +71,6 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         $GLOBALS["connection"] = ConnectionManager::get("default");
-        // Horas até o usuário ser obrigado a logar novamente
-        $GLOBALS["limiteToken"] = 24 * 3;
     }
 
     protected function possuiTokenValido(): bool
@@ -83,15 +81,15 @@ class AppController extends Controller
         }
 
         $token = $this->request->getHeader("Authentication")[0];
-        $limiteToken = $GLOBALS["limiteToken"];
+        $dataAtual = date("Y-m-d");
 
         $sql = "SELECT 1
                   FROM AUTENTICACAOS
                  WHERE AUTENTICACAO = :token
-                   AND TIMESTAMPDIFF(HOUR, CREATED, NOW()) < :limiteToken
+                   AND :dataAtual < EXPIRACAO
                  LIMIT 1";
 
-        $registros = $GLOBALS["connection"]->execute($sql, ["token" => $token, "limiteToken" => $limiteToken])->fetchAll("assoc");
+        $registros = $GLOBALS["connection"]->execute($sql, ["token" => $token, "dataAtual" => $dataAtual])->fetchAll("assoc");
         return !empty($registros);
     }
 }

@@ -4,7 +4,7 @@ cd bin
 
 cake bake migration CreateUsers nome:string[180] cpf:string[14]:unique password:string[255] celular:string[15] dtNasc:date email:string[180]:unique ativo:string[1] created modified
 
-cake bake migration CreateAutenticacaos autenticacao:string[255] user_id:integer ativo:string[1] created modified
+cake bake migration CreateAutenticacaos autenticacao:string[255] user_id:integer expiracao:date ativo:string[1] created modified
 
 cake bake migration CreateCategorias descricao:string[64] ativo:string[1] created modified
 

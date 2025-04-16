@@ -72,6 +72,11 @@ class AutenticacaosTable extends Table
             ->notEmptyString('user_id');
 
         $validator
+            ->date('expiracao')
+            ->requirePresence('expiracao', 'create')
+            ->notEmptyDate('expiracao');
+
+        $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');

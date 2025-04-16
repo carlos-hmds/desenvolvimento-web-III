@@ -22,9 +22,10 @@ class AutenticacaosFixture extends TestFixture
                 'id' => 1,
                 'autenticacao' => 'Lorem ipsum dolor sit amet',
                 'user_id' => 1,
+                'expiracao' => '2025-04-15',
                 'ativo' => 'L',
-                'created' => '2025-04-08 22:04:53',
-                'modified' => '2025-04-08 22:04:53',
+                'created' => '2025-04-15 22:16:26',
+                'modified' => '2025-04-15 22:16:26',
             ],
         ];
         parent::init();
