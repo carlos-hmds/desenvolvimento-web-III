@@ -169,7 +169,6 @@ class PagesController extends AppController
                 $statusCode = 400;
                 $response = $e->getAttributes();
             }
-
         }
         else {
             $statusCode = 400;

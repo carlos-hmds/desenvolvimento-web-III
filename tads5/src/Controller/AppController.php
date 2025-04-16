@@ -37,19 +37,15 @@ class AppController extends Controller
     {
         parent::beforeFilter($event);
 
-        if (!$this->possuiToken())
+        if ($this->request->getParam("action") === "login")
         {
-            throw new UnauthorizedException("Você não possui autorização para acessar esse recurso no sistema.");
+            return;
         }
 
-        /*
-        if (empty($this->request->getHeader("Authentication"))
-         || $this->request->getHeader("Authentication")[0] !== $GLOBALS["token"])
+        if (!$this->possuiTokenValido())
         {
-            // $this->Flash->error("Você não possui autorização para acessar esse recurso no sistema.");
-            throw new UnauthorizedException("Você não possui autorização para acessar esse recurso no sistema.");
+            throw new UnauthorizedException("Não autorizado.");
         }
-        */
     }
 
     /**
@@ -75,24 +71,27 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         $GLOBALS["connection"] = ConnectionManager::get("default");
-        $GLOBALS["token"] = "f8Jf1Eo7S67jjlU2O46OiJ2zzuOrBEWgErlbpAYS7tbYofjuWz";
+        // Horas até o usuário ser obrigado a logar novamente
+        $GLOBALS["limiteToken"] = 24 * 3;
     }
 
-    protected function possuiToken() {
+    protected function possuiTokenValido(): bool
+    {
         if (empty($this->request->getHeader("Authentication")[0]))
         {
             return false;
         }
 
         $token = $this->request->getHeader("Authentication")[0];
+        $limiteToken = $GLOBALS["limiteToken"];
 
         $sql = "SELECT 1
                   FROM AUTENTICACAOS
                  WHERE AUTENTICACAO = :token
+                   AND TIMESTAMPDIFF(HOUR, CREATED, NOW()) < :limiteToken
                  LIMIT 1";
 
-        $retorno = $GLOBALS["connection"]->execute($sql, ["token" => $token])->fetchAll("assoc");
-
-        return !empty($retorno);
+        $registros = $GLOBALS["connection"]->execute($sql, ["token" => $token, "limiteToken" => $limiteToken])->fetchAll("assoc");
+        return !empty($registros);
     }
 }
