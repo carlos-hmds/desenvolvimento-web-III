@@ -34,9 +34,6 @@ use function PHPUnit\Framework\isEmpty;
  */
 class PagesController extends AppController
 {
-    private \Cake\ORM\Table $Users;
-    private \Cake\ORM\Table $Autenticacaos;
-
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
@@ -47,8 +44,6 @@ class PagesController extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        $this->Users = $this->fetchTable("Users");
-        $this->Autenticacaos = $this->fetchTable("Autenticacaos");
     }
 
     /**
@@ -92,50 +87,6 @@ class PagesController extends AppController
             ->withStringBody(json_encode($response));
     }
 
-    public function addUser()
-    {
-        $response = null;
-        $statusCode = 200;
-
-        if ($this->request->is("post"))
-        {
-            $user = $this->Users->newEmptyEntity();
-            $dados = $this->request->getData();
-
-            $user = $this->Users->patchEntity($user, $dados);
-
-            try
-            {
-                $this->Users->saveOrFail($user);
-                $response = "Usuário adicionado com sucesso.";
-            }
-            catch (PersistenceFailedException $e)
-            {
-                $statusCode = 400;
-                $response = $e->getAttributes();
-            }
-
-            /*
-            $salvar = $this->Users->save($user);
-            if ($salvar)
-            {
-                $response = "Usuário adicionado com sucesso.";
-            }
-            */
-        }
-        else
-        {
-            $statusCode = 400;
-            $response = "Parâmetros de requisição inválidos: faltam os dados do usuário.";
-        }
-
-        return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
-            ->withStatus($statusCode)
-            ->withType('aplication/json')
-            ->withStringBody(json_encode($response));
-    }
-
     public function login()
     {
         $response = null;
@@ -144,7 +95,8 @@ class PagesController extends AppController
 
         $result = $this->Authentication->getResult();
 
-        if ($result && $result->isValid()) {
+        if ($result && $result->isValid())
+        {
             $autenticacao = $this->Autenticacaos->newEmptyEntity();
 
             // Gerar hash combinando a senha do usuário com a data atual
@@ -171,7 +123,8 @@ class PagesController extends AppController
                 $response = $e->getAttributes();
             }
         }
-        else {
+        else
+        {
             $statusCode = 400;
             $response = "Ocorreu um erro ao realizar o login.";
         }

@@ -21,6 +21,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\ORM\TableRegistry;
 use Exception;
 
 /**
@@ -33,6 +34,17 @@ use Exception;
  */
 class AppController extends Controller
 {
+    protected \Cake\ORM\Table $Users;
+    protected \Cake\ORM\Table $Autenticacaos;
+    protected \Cake\ORM\Table $Servicos;
+    protected \Cake\ORM\Table $Fornecedores;
+    protected \Cake\ORM\Table $Pecas;
+    protected \Cake\ORM\Table $Fabricantes;
+    protected \Cake\ORM\Table $Tipos;
+    protected \Cake\ORM\Table $Veiculos;
+    protected \Cake\ORM\Table $Manutencaos;
+    protected \Cake\ORM\Table $Manupecas;
+
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
@@ -69,6 +81,17 @@ class AppController extends Controller
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+
+        $this->Users = TableRegistry::getTableLocator()->get("Users");
+        $this->Autenticacaos = TableRegistry::getTableLocator()->get("Autenticacaos");
+        $this->Servicos = TableRegistry::getTableLocator()->get("Servicos");
+        $this->Fornecedores = TableRegistry::getTableLocator()->get("Fornecedores");
+        $this->Pecas = TableRegistry::getTableLocator()->get("Pecas");
+        $this->Fabricantes = TableRegistry::getTableLocator()->get("Fabricantes");
+        $this->Tipos = TableRegistry::getTableLocator()->get("Tipos");
+        $this->Veiculos = TableRegistry::getTableLocator()->get("Veiculos");
+        $this->Manutencaos = TableRegistry::getTableLocator()->get("Manutencaos");
+        $this->Manupecas = TableRegistry::getTableLocator()->get("Manupecas");
 
         $GLOBALS["connection"] = ConnectionManager::get("default");
     }

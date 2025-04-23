@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateCategorias extends BaseMigration
+class CreateVeiculos extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,10 +14,20 @@ class CreateCategorias extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('categorias');
-        $table->addColumn('descricao', 'string', [
+        $table = $this->table('veiculos');
+        $table->addColumn('modelo', 'string', [
             'default' => null,
-            'limit' => 64,
+            'limit' => 160,
+            'null' => false,
+        ]);
+        $table->addColumn('ano', 'integer', [
+            'default' => null,
+            'limit' => 4,
+            'null' => false,
+        ]);
+        $table->addColumn('placa', 'string', [
+            'default' => null,
+            'limit' => 8,
             'null' => false,
         ]);
         $table->addColumn('ativo', 'string', [
@@ -31,6 +41,16 @@ class CreateCategorias extends BaseMigration
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
+            'null' => false,
+        ]);
+        $table->addColumn('tipo_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
+        $table->addColumn('fabricante_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
             'null' => false,
         ]);
         $table->create();
