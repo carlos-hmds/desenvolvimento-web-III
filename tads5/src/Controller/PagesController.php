@@ -182,25 +182,6 @@ class PagesController extends AppController
             $response = $e->getAttributes();
         }
 
-        /*
-        $autenticacao = $this->gerarAutenticacao($result);
-
-        try {
-            $sql = "DELETE FROM AUTENTICACAOS
-                     WHERE USER_ID = :user_id";
-
-            $GLOBALS["connection"]->execute($sql, ["user_id" => $autenticacao["user_id"]]);
-
-            $this->Autenticacaos->saveOrFail($autenticacao);
-            $response["mensagem"] = "Login realizado com sucesso";
-            $response["hash"] = $autenticacao["autenticacao"];
-        }
-        catch (PersistenceFailedException $e) {
-            $statusCode = 400;
-            $response = $e->getAttributes();
-        }
-        */
-
         return $this->response
             ->withHeader("Access-Control-Allow-Origin", "+")
             ->withStatus($statusCode)
