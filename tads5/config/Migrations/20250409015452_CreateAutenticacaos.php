@@ -20,6 +20,10 @@ class CreateAutenticacaos extends BaseMigration
             'limit' => 255,
             'null' => false,
         ]);
+        $table->addColumn('expiracao', 'date', [
+            'default' => null,
+            'null' => false,
+        ]);
         $table->addColumn('user_id', 'integer', [
             'default' => null,
             'limit' => 11,

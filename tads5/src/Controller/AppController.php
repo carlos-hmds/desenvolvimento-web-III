@@ -37,7 +37,7 @@ class AppController extends Controller
     protected \Cake\ORM\Table $Users;
     protected \Cake\ORM\Table $Autenticacaos;
     protected \Cake\ORM\Table $Servicos;
-    protected \Cake\ORM\Table $Fornecedores;
+    protected \Cake\ORM\Table $Fornecedors;
     protected \Cake\ORM\Table $Pecas;
     protected \Cake\ORM\Table $Fabricantes;
     protected \Cake\ORM\Table $Tipos;
@@ -48,13 +48,9 @@ class AppController extends Controller
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
+        $acao = $this->request->getParam("action");
 
-        if ($this->request->getParam("action") === "login")
-        {
-            return;
-        }
-
-        if (!$this->possuiTokenValido())
+        if (!$this->possuiTokenValido() && $acao !== "login" && $acao !== "addUser")
         {
             throw new UnauthorizedException("Não autorizado.");
         }
@@ -85,7 +81,7 @@ class AppController extends Controller
         $this->Users = TableRegistry::getTableLocator()->get("Users");
         $this->Autenticacaos = TableRegistry::getTableLocator()->get("Autenticacaos");
         $this->Servicos = TableRegistry::getTableLocator()->get("Servicos");
-        $this->Fornecedores = TableRegistry::getTableLocator()->get("Fornecedores");
+        $this->Fornecedors = TableRegistry::getTableLocator()->get("Fornecedors");
         $this->Pecas = TableRegistry::getTableLocator()->get("Pecas");
         $this->Fabricantes = TableRegistry::getTableLocator()->get("Fabricantes");
         $this->Tipos = TableRegistry::getTableLocator()->get("Tipos");

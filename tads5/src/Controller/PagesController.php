@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -87,62 +88,124 @@ class PagesController extends AppController
             ->withStringBody(json_encode($response));
     }
 
+    private function gerarHash(): string
+    {
+        // $hash = password_hash($this->request->getData("password"), PASSWORD_DEFAULT);
+        // Gerar hash combinando a senha do usuário com a data atual
+        $hash = $this->request->getData("password") . date("YmdHis");
+        return hash("sha256", $hash);
+    }
+
+    private function obterDataExpiracao(): string
+    {
+        return date("Y-m-d", strtotime("+4 days"));
+    }
+
+    private function gerarAutenticacao($resultado): EntityInterface
+    {
+        $autenticacao = $this->Autenticacaos->newEmptyEntity();
+        $autenticacao["autenticacao"] = $this->gerarHash();
+        $autenticacao["user_id"] = $resultado->getData()["id"];
+        $autenticacao["expiracao"] = $this->obterDataExpiracao();
+
+        return $autenticacao;
+    }
+
+    private function gerarResposta($codigo, $mensagem): Response
+    {
+        return $this->response
+            ->withHeader("Access-Control-Allow-Origin", "+")
+            ->withStatus($codigo)
+            ->withType("aplication/json")
+            ->withStringBody(json_encode($mensagem));
+    }
+
     public function login()
     {
         $response = null;
         $statusCode = 200;
-        $this->loadComponent("Authentication.Authentication");
 
+        $this->loadComponent("Authentication.Authentication");
+        $this->Authentication->logout();
         $result = $this->Authentication->getResult();
 
-        if ($result && $result->isValid())
+        if (!$result || !$result->isValid())
         {
-            $autenticacao = $this->Autenticacaos->newEmptyEntity();
+            return $this->response
+                ->withHeader("Access-Control-Allow-Origin", "+")
+                ->withStatus(400)
+                ->withType("aplication/json")
+                ->withStringBody(json_encode("Ocorreu um erro ao realizar o login."));
+        }
 
-            // Gerar hash combinando a senha do usuário com a data atual
-            $hash = $this->request->getData("password") . date("YmdHis");
-            $hash = hash("sha256", $hash);
-            // $hash = password_hash($this->request->getData("password"), PASSWORD_DEFAULT);
-            $autenticacao["autenticacao"] = $hash;
-            $user_id = $result->getData()["id"];
-            $autenticacao["user_id"] = $user_id;
-            $autenticacao["expiracao"] = date("Y-m-d", strtotime("+4 days"));
+        $user_id = $result->getData()["id"];
 
-            try {
-                $sql = "DELETE FROM AUTENTICACAOS
+        try
+        {
+            $sql = "SELECT 1
+                      FROM AUTENTICACAOS
+                     WHERE USER_ID = :user_id";
+
+            $registros = $GLOBALS["connection"]->execute($sql, ["user_id" => $user_id])->fetchAll("assoc");
+            $hash = "";
+
+            if (empty($registros))
+            {
+                $autenticacao = $this->gerarAutenticacao($result);
+                $hash = $autenticacao["autenticacao"];
+                $this->Autenticacaos->saveOrFail($autenticacao);
+            }
+            else
+            {
+                $sql = "UPDATE AUTENTICACAOS
+                           SET AUTENTICACAO = :hash,
+                               EXPIRACAO = :data_expiracao,
+                               MODIFIED = NOW()
                          WHERE USER_ID = :user_id";
 
-                $GLOBALS["connection"]->execute($sql, ["user_id" => $user_id]);
+                $hash = $this->gerarHash();
+                $data_expiracao = $this->obterDataExpiracao();
 
-                $this->Autenticacaos->saveOrFail($autenticacao);
-                $response["mensagem"] = "Login realizado com sucesso";
-                $response["hash"] = $autenticacao["autenticacao"];
+                $GLOBALS["connection"]->execute($sql, [
+                    "hash" => $hash,
+                    "data_expiracao" => $data_expiracao,
+                    "user_id" => $user_id
+                ])->fetchAll("assoc");
             }
-            catch (PersistenceFailedException $e) {
-                $statusCode = 400;
-                $response = $e->getAttributes();
-            }
+
+            $response["mensagem"] = "Login realizado com sucesso";
+            $response["hash"] = $hash;
         }
-        else
+        catch (PersistenceFailedException $e)
         {
             $statusCode = 400;
-            $response = "Ocorreu um erro ao realizar o login.";
+            $response = $e->getAttributes();
         }
+
+        /*
+        $autenticacao = $this->gerarAutenticacao($result);
+
+        try {
+            $sql = "DELETE FROM AUTENTICACAOS
+                     WHERE USER_ID = :user_id";
+
+            $GLOBALS["connection"]->execute($sql, ["user_id" => $autenticacao["user_id"]]);
+
+            $this->Autenticacaos->saveOrFail($autenticacao);
+            $response["mensagem"] = "Login realizado com sucesso";
+            $response["hash"] = $autenticacao["autenticacao"];
+        }
+        catch (PersistenceFailedException $e) {
+            $statusCode = 400;
+            $response = $e->getAttributes();
+        }
+        */
 
         return $this->response
             ->withHeader("Access-Control-Allow-Origin", "+")
             ->withStatus($statusCode)
             ->withType("aplication/json")
             ->withStringBody(json_encode($response));
-
-        //$target = $this->Authentication->getLoginRedirect() ?? '/home';
-        //return $this->redirect($target);
-
-        /*
-        if ($this->request->is('post')) {
-            $this->Flash->error('Invalid username or password');
-        }
-        */
     }
 
     public function logout()
