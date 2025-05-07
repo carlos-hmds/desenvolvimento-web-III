@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Cake\ORM\Exception\PersistenceFailedException;
+use Exception;
 
 class AdicionasController extends AppController
 {
@@ -27,11 +28,23 @@ class AdicionasController extends AppController
             {
                 $this->Users->saveOrFail($user);
                 $response = "Usuário adicionado com sucesso.";
+
+                $mensagem = "<h1>Eba!</h1><br>Seu usuário do TADS5 foi criado com sucesso.";
+
+                $this->enviarEmail([
+                    "destinatario" => $user["email"],
+                    "assunto" => "Seja bem vindo ao sistema!",
+                    "mensagem" => $mensagem,
+                ]);
             }
             catch (PersistenceFailedException $e)
             {
                 $statusCode = 400;
                 $response = $e->getAttributes();
+            }
+            catch (Exception $e) {
+                $statusCode = 400;
+                $response = "Houve um erro: " . $e->getMessage();
             }
         }
         else

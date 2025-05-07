@@ -90,9 +90,9 @@ class PagesController extends AppController
 
     private function gerarHash(): string
     {
-        // $hash = password_hash($this->request->getData("password"), PASSWORD_DEFAULT);
+        // $hash = password_hash($this->request->getData("email"), PASSWORD_DEFAULT);
         // Gerar hash combinando a senha do usuário com a data atual
-        $hash = $this->request->getData("password") . date("YmdHis");
+        $hash = $this->request->getData("email") . date("YmdHis");
         return hash("sha256", $hash);
     }
 
@@ -142,39 +142,37 @@ class PagesController extends AppController
 
         try
         {
-            $sql = "SELECT 1
-                      FROM AUTENTICACAOS
-                     WHERE USER_ID = :user_id";
+            /*
+            $registros = $this->Autenticacaos->find()
+                ->select(['id'])
+                ->where(["user_id" => $user_id])
+                ->all()
+                ->toList();
+             */
 
-            $registros = $GLOBALS["connection"]->execute($sql, ["user_id" => $user_id])->fetchAll("assoc");
-            $hash = "";
+            $salvar["autenticacao"] = $this->gerarHash();
+            $salvar["expiracao"] = $this->obterDataExpiracao();
 
-            if (empty($registros))
+            $retorno = $this->Autenticacaos->find()
+                ->select(['id'])
+                ->where(["user_id" => $user_id])
+                ->limit(1)
+                ->first();
+
+            if ($retorno)
             {
-                $autenticacao = $this->gerarAutenticacao($result);
-                $hash = $autenticacao["autenticacao"];
-                $this->Autenticacaos->saveOrFail($autenticacao);
+                $autenticacao = $this->Autenticacaos->get($result->getData()["id"], contain: []);
             }
             else
             {
-                $sql = "UPDATE AUTENTICACAOS
-                           SET AUTENTICACAO = :hash,
-                               EXPIRACAO = :data_expiracao,
-                               MODIFIED = NOW()
-                         WHERE USER_ID = :user_id";
-
-                $hash = $this->gerarHash();
-                $data_expiracao = $this->obterDataExpiracao();
-
-                $GLOBALS["connection"]->execute($sql, [
-                    "hash" => $hash,
-                    "data_expiracao" => $data_expiracao,
-                    "user_id" => $user_id
-                ])->fetchAll("assoc");
+                $autenticacao = $this->Autenticacaos->newEmptyEntity();
             }
 
+            $autenticacao = $this->Autenticacaos->patchEntity($autenticacao, $salvar);
+            $this->Autenticacaos->saveOrFail($autenticacao);
+
             $response["mensagem"] = "Login realizado com sucesso";
-            $response["hash"] = $hash;
+            $response["hash"] = $autenticacao["autenticacao"];
         }
         catch (PersistenceFailedException $e)
         {

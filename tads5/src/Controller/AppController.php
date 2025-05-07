@@ -21,6 +21,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 use Exception;
 
@@ -110,5 +111,24 @@ class AppController extends Controller
 
         $registros = $GLOBALS["connection"]->execute($sql, ["token" => $token, "dataAtual" => $dataAtual])->fetchAll("assoc");
         return !empty($registros);
+    }
+
+    protected function enviarEmail(array $parametros): void
+    {
+        $mailer = new Mailer("default");
+
+        $mailer->setFrom(env("EMAIL_TRANSPORT_USERNAME"))
+            ->setTo($parametros["destinatario"])
+            ->setEmailFormat("html");
+
+        if (key_exists("assunto", $parametros)) {
+            $mailer->setSubject($parametros["assunto"]);
+        }
+
+        if (key_exists("copia", $parametros)) {
+            $mailer->setCc($parametros["copia"]);
+        }
+
+        $mailer->deliver($parametros["mensagem"]);
     }
 }
