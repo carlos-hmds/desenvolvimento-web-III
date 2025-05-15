@@ -121,11 +121,11 @@ class AppController extends Controller
             ->setTo($parametros["destinatario"])
             ->setEmailFormat("html");
 
-        if (key_exists("assunto", $parametros)) {
+        if (!empty($parametros["assunto"])) {
             $mailer->setSubject($parametros["assunto"]);
         }
 
-        if (key_exists("copia", $parametros)) {
+        if (!empty($parametros["copia"])) {
             $mailer->setCc($parametros["copia"]);
         }
 
