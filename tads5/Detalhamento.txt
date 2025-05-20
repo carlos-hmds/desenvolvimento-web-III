@@ -47,3 +47,7 @@ Endpoints
 
 - AdicionasController
     /addUser
+
+Disponibilizar localhost para aplicações
+
+bin/cake server -H 0.0.0.0

@@ -150,17 +150,20 @@ class PagesController extends AppController
                 ->toList();
              */
 
+            $salvar["user_id"] = $user_id;
             $salvar["autenticacao"] = $this->gerarHash();
             $salvar["expiracao"] = $this->obterDataExpiracao();
 
             $retorno = $this->Autenticacaos->find()
-                ->select(['id'])
+                ->select(["id"])
                 ->where(["user_id" => $user_id])
                 ->limit(1)
                 ->first();
 
             if ($retorno)
             {
+                // Corrigir isso para obter a autenticação pelo id do usuário, pois o get
+                // pega pela chave primária
                 $autenticacao = $this->Autenticacaos->get($result->getData()["id"], contain: []);
             }
             else
