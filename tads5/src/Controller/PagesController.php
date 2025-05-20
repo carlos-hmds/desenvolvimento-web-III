@@ -135,7 +135,7 @@ class PagesController extends AppController
                 ->withHeader("Access-Control-Allow-Origin", "+")
                 ->withStatus(400)
                 ->withType("aplication/json")
-                ->withStringBody(json_encode("Ocorreu um erro ao realizar o login."));
+                ->withStringBody(json_encode("E-mail ou senha inválidos."));
         }
 
         $user_id = $result->getData()["id"];
@@ -154,17 +154,15 @@ class PagesController extends AppController
             $salvar["autenticacao"] = $this->gerarHash();
             $salvar["expiracao"] = $this->obterDataExpiracao();
 
-            $retorno = $this->Autenticacaos->find()
+            $autenticacao_id = $this->Autenticacaos->find()
                 ->select(["id"])
                 ->where(["user_id" => $user_id])
                 ->limit(1)
                 ->first();
 
-            if ($retorno)
+            if ($autenticacao_id)
             {
-                // Corrigir isso para obter a autenticação pelo id do usuário, pois o get
-                // pega pela chave primária
-                $autenticacao = $this->Autenticacaos->get($result->getData()["id"], contain: []);
+                $autenticacao = $this->Autenticacaos->get($autenticacao_id, contain: []);
             }
             else
             {
