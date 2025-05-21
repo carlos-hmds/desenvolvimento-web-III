@@ -154,14 +154,15 @@ class PagesController extends AppController
             $salvar["autenticacao"] = $this->gerarHash();
             $salvar["expiracao"] = $this->obterDataExpiracao();
 
-            $autenticacao_id = $this->Autenticacaos->find()
+            $retorno = $this->Autenticacaos->find()
                 ->select(["id"])
                 ->where(["user_id" => $user_id])
                 ->limit(1)
                 ->first();
 
-            if ($autenticacao_id)
+            if ($retorno)
             {
+                $autenticacao_id = $retorno["id"];
                 $autenticacao = $this->Autenticacaos->get($autenticacao_id, contain: []);
             }
             else
