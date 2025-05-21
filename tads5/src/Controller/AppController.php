@@ -113,22 +113,20 @@ class AppController extends Controller
         return !empty($registros);
     }
 
-    protected function enviarEmail(array $parametros): void
+    protected function enviarEmail($destinatario, $mensagem, $assunto = "TADS5", $copia = null): void
     {
         $mailer = new Mailer("default");
 
         $mailer->setFrom(env("EMAIL_TRANSPORT_USERNAME"))
-            ->setTo($parametros["destinatario"])
+            ->setTo($destinatario)
             ->setEmailFormat("html");
 
-        if (!empty($parametros["assunto"])) {
-            $mailer->setSubject($parametros["assunto"]);
+        $mailer->setSubject($assunto);
+
+        if ($copia) {
+            $mailer->setCc($copia);
         }
 
-        if (!empty($parametros["copia"])) {
-            $mailer->setCc($parametros["copia"]);
-        }
-
-        $mailer->deliver($parametros["mensagem"]);
+        $mailer->deliver($mensagem);
     }
 }

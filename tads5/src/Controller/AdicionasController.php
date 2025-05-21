@@ -31,11 +31,7 @@ class AdicionasController extends AppController
 
                 $mensagem = "<h1>Eba!</h1><br>Seu usuário do TADS5 foi criado com sucesso.";
 
-                $this->enviarEmail([
-                    "destinatario" => $user["email"],
-                    "assunto" => "Seja bem vindo ao sistema!",
-                    "mensagem" => $mensagem,
-                ]);
+                $this->enviarEmail(destinatario: $user["email"], mensagem: $mensagem, assunto: "Seja bem vindo ao sistema do TADS5!");
             }
             catch (PersistenceFailedException $e)
             {
