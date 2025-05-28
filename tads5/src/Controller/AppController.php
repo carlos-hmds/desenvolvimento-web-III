@@ -88,7 +88,7 @@ class AppController extends Controller
         $this->Tipos = TableRegistry::getTableLocator()->get("Tipos");
         $this->Veiculos = TableRegistry::getTableLocator()->get("Veiculos");
         $this->Manutencaos = TableRegistry::getTableLocator()->get("Manutencaos");
-        $this->Manupecas = TableRegistry::getTableLocator()->get("Manupecas");
+        $this->Manupecas = TableRegistry::getTableLocator()->get("ManuPecas");
 
         $GLOBALS["connection"] = ConnectionManager::get("default");
     }
