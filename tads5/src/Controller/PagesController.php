@@ -114,7 +114,7 @@ class PagesController extends AppController
     private function gerarResposta($codigo, $mensagem): Response
     {
         return $this->response
-            ->withHeader("Access-Control-Allow-Origin", "+")
+            ->withHeader("Access-Control-Allow-Origin", "*")
             ->withStatus($codigo)
             ->withType("aplication/json")
             ->withStringBody(json_encode($mensagem));
@@ -132,7 +132,7 @@ class PagesController extends AppController
         if (!$result || !$result->isValid())
         {
             return $this->response
-                ->withHeader("Access-Control-Allow-Origin", "+")
+                ->withHeader("Access-Control-Allow-Origin", "*")
                 ->withStatus(400)
                 ->withType("aplication/json")
                 ->withStringBody(json_encode("E-mail ou senha inválidos."));
@@ -183,7 +183,7 @@ class PagesController extends AppController
         }
 
         return $this->response
-            ->withHeader("Access-Control-Allow-Origin", "+")
+            ->withHeader("Access-Control-Allow-Origin", "*")
             ->withStatus($statusCode)
             ->withType("aplication/json")
             ->withStringBody(json_encode($response));

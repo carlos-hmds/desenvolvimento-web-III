@@ -50,7 +50,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -86,7 +86,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -122,7 +122,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -158,7 +158,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -194,7 +194,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -230,7 +230,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -266,7 +266,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -302,7 +302,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
@@ -338,7 +338,7 @@ class AdicionasController extends AppController
         }
 
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '+')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode)
             ->withType('aplication/json')
             ->withStringBody(json_encode($response));
