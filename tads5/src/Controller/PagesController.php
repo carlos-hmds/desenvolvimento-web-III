@@ -83,8 +83,6 @@ class PagesController extends AppController
 
         return $this->response
             ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization')
             ->withStatus($statusCode)
             ->withType('application/json')
             ->withStringBody(json_encode($response));
@@ -117,8 +115,6 @@ class PagesController extends AppController
     {
         return $this->response
             ->withHeader("Access-Control-Allow-Origin", "*")
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization')
             ->withStatus($codigo)
             ->withType("aplication/json")
             ->withStringBody(json_encode($mensagem));
@@ -188,8 +184,6 @@ class PagesController extends AppController
 
         return $this->response
             ->withHeader("Access-Control-Allow-Origin", "*")
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization')
             ->withStatus($statusCode)
             ->withType("aplication/json")
             ->withStringBody(json_encode($response));
