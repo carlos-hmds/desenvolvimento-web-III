@@ -52,7 +52,7 @@ class AppController extends Controller
         parent::beforeFilter($event);
         $acao = $this->request->getParam("action");
 
-        if (!$this->possuiTokenValido() && $acao !== "login" && $acao !== "addUser")
+        if ($acao !== "login" && $acao !== "addUser" && !$this->possuiTokenValido())
         {
             throw new UnauthorizedException("Não autorizado.");
         }

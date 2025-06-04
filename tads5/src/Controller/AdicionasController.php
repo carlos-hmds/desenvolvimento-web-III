@@ -99,14 +99,14 @@ class AdicionasController extends AppController
 
         if ($this->request->is("post"))
         {
-            $fornecedor = $this->Fornecedores->newEmptyEntity();
+            $fornecedor = $this->Fornecedors->newEmptyEntity();
             $dados = $this->request->getData();
 
-            $fornecedor = $this->Fornecedores->patchEntity($fornecedor, $dados);
+            $fornecedor = $this->Fornecedors->patchEntity($fornecedor, $dados);
 
             try
             {
-                $this->Fornecedores->saveOrFail($fornecedor);
+                $this->Fornecedors->saveOrFail($fornecedor);
                 $response = "Fornecedor adicionado com sucesso.";
             }
             catch (PersistenceFailedException $e)
