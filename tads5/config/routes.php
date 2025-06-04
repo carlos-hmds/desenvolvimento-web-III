@@ -68,6 +68,10 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/addManutencao', ['controller' => 'Adicionas', 'action' => 'addManutencao']);
         $builder->connect('/addManupeca', ['controller' => 'Adicionas', 'action' => 'addManupeca']);
 
+        // VisualizacaosController
+
+        $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);
+
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */
