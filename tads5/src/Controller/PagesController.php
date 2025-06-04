@@ -64,28 +64,19 @@ class PagesController extends AppController
         $response = null;
         $statusCode = 200;
 
-        if ($this->request->is("post") && !empty($this->request->getData("id")[0])) {
-            $sql = "SELECT *
-                      FROM USERS
-                     WHERE ID = :id";
+        $consulta = $this->Users->find();
 
+        if ($this->request->is("post") && !empty($this->request->getData("id")[0])) {
             $id = $this->request->getData("id")[0];
-            $filtro = ["id" => $id];
+            $consulta = $consulta->where(["id" => $id]);
+            $response = $consulta->first();
         }
         else {
-            $sql = "SELECT *
-                      FROM USERS
-                     ORDER BY NOME ASC";
-            $filtro = [];
+            $consulta = $consulta->orderBy(["nome" => "asc"]);
+            $response = $consulta->all();
         }
 
-        $response = $GLOBALS["connection"]->execute($sql, $filtro)->fetchAll("assoc");
-
-        return $this->response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withStatus($statusCode)
-            ->withType('application/json')
-            ->withStringBody(json_encode($response));
+        return $this->gerarResposta($statusCode, $response);
     }
 
     private function gerarHash(): string
@@ -111,15 +102,6 @@ class PagesController extends AppController
         return $autenticacao;
     }
 
-    private function gerarResposta($codigo, $mensagem): Response
-    {
-        return $this->response
-            ->withHeader("Access-Control-Allow-Origin", "*")
-            ->withStatus($codigo)
-            ->withType("aplication/json")
-            ->withStringBody(json_encode($mensagem));
-    }
-
     public function login()
     {
         $response = null;
@@ -131,25 +113,13 @@ class PagesController extends AppController
 
         if (!$result || !$result->isValid())
         {
-            return $this->response
-                ->withHeader("Access-Control-Allow-Origin", "*")
-                ->withStatus(400)
-                ->withType("aplication/json")
-                ->withStringBody(json_encode("E-mail ou senha inválidos."));
+            return $this->gerarResposta(400, "E-mail ou senha inválidos.");
         }
 
         $user_id = $result->getData()["id"];
 
         try
         {
-            /*
-            $registros = $this->Autenticacaos->find()
-                ->select(['id'])
-                ->where(["user_id" => $user_id])
-                ->all()
-                ->toList();
-             */
-
             $salvar["user_id"] = $user_id;
             $salvar["autenticacao"] = $this->gerarHash();
             $salvar["expiracao"] = $this->obterDataExpiracao();
@@ -182,11 +152,7 @@ class PagesController extends AppController
             $response = $e->getAttributes();
         }
 
-        return $this->response
-            ->withHeader("Access-Control-Allow-Origin", "*")
-            ->withStatus($statusCode)
-            ->withType("aplication/json")
-            ->withStringBody(json_encode($response));
+        return $this->gerarResposta($statusCode, $response);
     }
 
     public function logout()

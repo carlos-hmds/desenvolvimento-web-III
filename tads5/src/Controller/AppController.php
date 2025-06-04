@@ -21,6 +21,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Http\Response;
 use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 use Exception;
@@ -103,14 +104,15 @@ class AppController extends Controller
         $token = $this->request->getHeader("Authentication")[0];
         $dataAtual = date("Y-m-d");
 
-        $sql = "SELECT 1
-                  FROM AUTENTICACAOS
-                 WHERE AUTENTICACAO = :token
-                   AND :dataAtual < EXPIRACAO
-                 LIMIT 1";
+        $autenticacao = $this->Autenticacaos->find()
+            ->select(["id"])
+            ->where([
+                "AUTENTICACAO" => $token,
+                "EXPIRACAO > " => $dataAtual,
+            ])
+            ->first();
 
-        $registros = $GLOBALS["connection"]->execute($sql, ["token" => $token, "dataAtual" => $dataAtual])->fetchAll("assoc");
-        return !empty($registros);
+        return !empty($autenticacao);
     }
 
     protected function enviarEmail($destinatario, $mensagem, $assunto = "TADS5", $copia = null): void
@@ -128,5 +130,14 @@ class AppController extends Controller
         }
 
         $mailer->deliver($mensagem);
+    }
+
+    protected function gerarResposta($codigo, $retorno): Response
+    {
+        return $this->response
+            ->withHeader("Access-Control-Allow-Origin", "*")
+            ->withStatus($codigo)
+            ->withType("aplication/json")
+            ->withStringBody(json_encode($retorno));
     }
 }
