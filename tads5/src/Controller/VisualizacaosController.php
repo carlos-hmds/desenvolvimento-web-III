@@ -14,8 +14,6 @@ class VisualizacaosController extends AppController
             return $this->gerarResposta(400, 'Requisição inválida.');
         }
 
-        debug($this->request->getData());
-
         if (empty($this->request->getData())) {
             $manutencaos = $this->fetchTable('Manutencaos');
             $response = $manutencaos
@@ -23,9 +21,13 @@ class VisualizacaosController extends AppController
                 ->select([
                     'cnpj_fornecedor' => 'Fornecedors.cnpj',
                     'nome_fornecedor' => 'Fornecedors.nome',
+                    'telefone_fornecedor' => 'Fornecedors.telefone',
                     'modelo_veiculo' => 'Veiculos.modelo',
                     'placa_veiculo' => 'Veiculos.placa',
-                    'nome_fabricante' => 'Fabricantes.nome',
+                    'nome_abreviado_fabricante' => 'Fabricantes.abreviado',
+                    'nota_fiscal' => 'Manutencaos.notaFiscal',
+                    'valor_manutencao' => 'Manutencaos.valor',
+                    'data_manutencao' => 'Manutencaos.data',
                 ])
                 ->join([
                     'table' => 'Fornecedors',
@@ -50,7 +52,8 @@ class VisualizacaosController extends AppController
                 ->where(['id' => $id])
                 ->first();
 
-            // Fornecedor: CNPJ e nome
+            // Fornecedor: CNPJ, nome e telefone
+            // Número da nota, valor e data
             // Veículo: Modelo, placa e nome do fabricante
         }
 
