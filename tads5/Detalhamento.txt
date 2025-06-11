@@ -39,6 +39,14 @@ cd tads5
 
 composer require cakephp/authentication
 
+Casos de uso necessários
+- Listar manutenções por placa
+- Gastos em manutenções por veículo
+- Peças em estoque
+- Dados do fornecedor
+- Tipos de serviços
+-
+
 Endpoints
 
 - PagesController
@@ -46,7 +54,9 @@ Endpoints
     /login
 
 - AdicionasController
-    /addUser
+    ...
+
+-
 
 Disponibilizar localhost para aplicações
 
