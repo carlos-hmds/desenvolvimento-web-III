@@ -40,12 +40,14 @@ cd tads5
 composer require cakephp/authentication
 
 Casos de uso necessários
-- Listar manutenções por placa
-- Gastos em manutenções por veículo
-- Peças em estoque
-- Dados do fornecedor
-- Tipos de serviços
--
+
+- Listar manutenções/histórico e gastos por placa
+- Calcular gastos totais por período variável (data inicial e final)
+- Registrar quilometragem na manutenção
+- Verificar peças ou componentes utilizados
+- Acessar dados de fornecedores
+- Classificar serviços por tipo
+
 
 Endpoints
 

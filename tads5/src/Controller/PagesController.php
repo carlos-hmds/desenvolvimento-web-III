@@ -143,7 +143,7 @@ class PagesController extends AppController
             $autenticacao = $this->Autenticacaos->patchEntity($autenticacao, $salvar);
             $this->Autenticacaos->saveOrFail($autenticacao);
 
-            $response["mensagem"] = "Login realizado com sucesso";
+            $response["mensagem"] = "Login realizado com sucesso.";
             $response["hash"] = $autenticacao["autenticacao"];
         }
         catch (PersistenceFailedException $e)

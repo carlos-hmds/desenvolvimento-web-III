@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Date $data
  * @property string $valor
  * @property int|null $notaFiscal
+ * @property int $quilometragem
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
@@ -37,6 +38,7 @@ class Manutencao extends Entity
         'data' => true,
         'valor' => true,
         'notaFiscal' => true,
+        'quilometragem' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,

@@ -88,6 +88,11 @@ class VeiculosTable extends Table
             ->notEmptyString('placa');
 
         $validator
+            ->integer('quilometragemInicial')
+            ->requirePresence('quilometragemInicial', 'create')
+            ->notEmptyString('quilometragemInicial');
+
+        $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');

@@ -85,6 +85,11 @@ class ManutencaosTable extends Table
             ->allowEmptyString('notaFiscal');
 
         $validator
+            ->integer('quilometragem')
+            ->requirePresence('quilometragem', 'create')
+            ->notEmptyString('quilometragem');
+
+        $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');

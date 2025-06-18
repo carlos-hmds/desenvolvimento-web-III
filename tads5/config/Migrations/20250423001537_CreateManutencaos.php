@@ -30,6 +30,11 @@ class CreateManutencaos extends BaseMigration
             'limit' => 11,
             'null' => true,
         ]);
+        $table->addColumn('quilometragem', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,

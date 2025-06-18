@@ -30,6 +30,11 @@ class CreateVeiculos extends BaseMigration
             'limit' => 8,
             'null' => false,
         ]);
+        $table->addColumn('quilometragem_inicial', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,

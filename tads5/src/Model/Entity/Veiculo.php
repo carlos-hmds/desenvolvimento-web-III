@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property string $modelo
  * @property int $ano
  * @property string $placa
+ * @property int $quilometragemInicial
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
