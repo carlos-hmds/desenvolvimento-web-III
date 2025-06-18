@@ -39,7 +39,7 @@ cd tads5
 
 composer require cakephp/authentication
 
-Casos de uso necessários
+Funcionalidades e requisitos
 
 - Listar manutenções/histórico e gastos por placa
 - Calcular gastos totais por período variável (data inicial e final)
@@ -47,7 +47,12 @@ Casos de uso necessários
 - Verificar peças ou componentes utilizados
 - Acessar dados de fornecedores
 - Classificar serviços por tipo
+- Acesso on-line e offline
 
+Informações técnicas
+
+- Versionamento e dados básicos
+- Papéis e permissões
 
 Endpoints
 
