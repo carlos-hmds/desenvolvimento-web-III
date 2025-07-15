@@ -59,6 +59,8 @@ class ManutencaosTable extends Table
         ]);
         $this->hasMany('ManuPecas', [
             'foreignKey' => 'manutencao_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
     }
 

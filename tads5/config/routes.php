@@ -68,6 +68,8 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/addManutencao', ['controller' => 'Adicionas', 'action' => 'addManutencao']);
         $builder->connect('/addManupeca', ['controller' => 'Adicionas', 'action' => 'addManupeca']);
 
+        $builder->connect('/editManutencao', ['controller' => 'Manutencaos', 'action' => 'edit']);
+
         // VisualizacaosController
 
         $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);

@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Database\Exception\DatabaseException;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\EventInterface;
+use Cake\I18n\Date;
+use Cake\I18n\DateTime;
 use Cake\ORM\Exception\PersistenceFailedException;
 use Exception;
 
@@ -20,25 +23,58 @@ class ManutencaosController extends AppController
 
     public function index()
     {
-        $query = $this->Manutencaos->find()
-            ->contain(['Veiculos', 'Fornecedors']);
-        $manutencaos = $this->paginate($query);
+        $msgNaoEncontrado = '';
 
-        $this->set(compact('manutencaos'));
+        try {
+            $dados = $this->request->getData();
+
+            if (empty($dados)) {
+                return $this->gerarResposta(400, 'Dados ausentes.');
+            }
+
+            $id = $this->request->getData('id');
+
+            if (!$id) {
+                return $this->gerarResposta(400, 'Informe o código da manutenção para buscá-la.');
+            }
+
+            $mensagem = 'Manutenção de código ' . $id . ' não encontrada.';
+            $manutencao = $this->Manutencaos->get($id, contain: [
+                'ManuPecas.Pecas'
+            ]);
+
+            return $this->gerarResposta(200, $manutencao);
+        }
+        catch (RecordNotFoundException $e) {
+            return $this->gerarResposta(400, $msgNaoEncontrado);
+        }
+        catch (Exception $e) {
+            return $this->gerarResposta(400, $e->getMessage());
+        }
     }
 
     public function view()
     {
-        $response = null;
-        $statusCode = 200;
-
-        if (!$this->request->is('POST')) {
+        if (!$this->request->is('post')) {
             return $this->gerarResposta(400, 'Requisição não suportada.');
         }
 
-        if (empty($this->request->getData())) {
+        $dados = $this->request->getData();
+
+        $dataInicial = null;
+        $dataFinal = null;
+
+        if (!empty($dados['data_inicial'])) {
+            $dataInicial = $dados['data_inicial'];
+        }
+
+        if (!empty($dados['data_final'])) {
+            $dataFinal = $dados['data_inicial'];
+        }
+
+        try {
             $manutencaos = $this->fetchTable('Manutencaos');
-            $response = $manutencaos
+            $query = $manutencaos
                 ->find()
                 ->select([
                     'cnpj_fornecedor' => 'Fornecedors.cnpj',
@@ -65,105 +101,97 @@ class ManutencaosController extends AppController
                     'table' => 'Fabricantes',
                     'type' => 'INNER',
                     'conditions' => 'Fabricantes.id = Veiculos.fabricante_id',
-                ])
-                ->toArray();
-        } else {
-            $id = $this->request->getData('id');
-            $response = $this->Manutencaos
-                ->find()
-                ->where(['id' => $id])
-                ->first();
-        }
+                ]);
 
-        return $this->gerarResposta($statusCode, $response);
+            if ($dataInicial) {
+                $query = $query->where(['data >= ' => new Date($dataInicial)], ['data' => 'date']);
+            }
+
+            if ($dataFinal) {
+                $query = $query->where(['data <= ' => new Date($dataFinal)], ['data' => 'date']);
+            }
+
+            return $this->gerarResposta(200, $query->toArray());
+        }
+        catch (Exception $e) {
+            return $this->gerarResposta(400, $e->getMessage());
+        }
     }
 
     public function add(): \Cake\Http\Response
     {
-        $response = null;
-        $statusCode = 200;
-
-        if (!$this->request->is("post")) {
-            return $this->gerarResposta(
-                400,
-                "Requisição inválida."
-            );
-        }
-
-        $manutencao = $this->Manutencaos->newEmptyEntity();
-        $dados = $this->request->getData();
-        $pecas = $dados["pecas"];
-
-        if (empty($pecas)) {
-            return $this->gerarResposta(
-                400,
-                "Informe ao menos uma peça para a manutenção."
-            );
-        }
-
-        $mensagemNaoEncontrado = "";
-        $this->conexao->begin();
-
-        try
-        {
-            $manutencao = $this->Manutencaos->patchEntity($manutencao, $dados);
-            $this->Manutencaos->saveOrFail($manutencao);
-
-            foreach($pecas as $peca) {
-                $id = $peca["id"];
-                $mensagemNaoEncontrado = "Peça com código " . $id . " não encontrada.";
-                $pecaEntidade = $this->Pecas->get($id, contain: []);
-
-                $pecaEntidade = $this->Pecas->patchEntity($pecaEntidade, $peca);
-                $this->Pecas->saveOrFail($pecaEntidade);
-
-                $manutencaoPeca = $this->Manupecas->newEmptyEntity();
-                $this->Manupecas->patchEntity($manutencaoPeca, [
-                    "manutencao_id" => $manutencao["id"],
-                    "peca_id" => $peca["id"],
-                ]);
-
-                $this->Manupecas->saveOrFail($manutencaoPeca);
-            }
-
-            $this->conexao->commit();
-            $response = "Manutenção lançada com sucesso.";
-        }
-        catch (RecordNotFoundException) {
-            $statusCode = 400;
-            $response = $mensagemNaoEncontrado;
-            $this->conexao->rollback();
-        }
-        catch (PersistenceFailedException $e)
-        {
-            $statusCode = 400;
-            $response = $e->getAttributes();
-            $this->conexao->rollback();
-        }
-
-        return $this->gerarResposta($statusCode, $response);
-    }
-
-    public function edit()
-    {
         if (!$this->request->is('post')) {
-            return $this->gerarResposta(400, "Requisição inválida.");
+            return $this->gerarResposta(400, 'Requisição inválida.');
         }
 
         $dados = $this->request->getData();
 
         if (empty($dados)) {
-            return $this->gerarResposta(400, "Informe os parâmetros necessários.");
+            return $this->gerarResposta(400, 'Informe a manutenção a ser lançada.');
         }
 
-        $mensagemNaoEncontrado = "";
+        $manuPecas = $dados["manu_pecas"];
+
+        if (empty($manuPecas)) {
+            return $this->gerarResposta(400, 'Deve haver ao menos uma peça vinculada à manutenção.');
+        }
+
+        try {
+            $manutencao = $this->Manutencaos->newEmptyEntity();
+            $manutencao = $this->Manutencaos->patchEntity($manutencao, $dados, [
+                'associated' => ['ManuPecas']
+            ]);
+
+            $manutencao = $this->Manutencaos->saveOrFail($manutencao);
+            return $this->gerarResposta(200, ['id' => $manutencao["id"]]);
+        }
+        catch (PersistenceFailedException $e) {
+            return $this->gerarResposta(400, $e->getAttributes());
+        }
+    }
+
+    public function edit()
+    {
+        if (!$this->request->is('post')) {
+            return $this->gerarResposta(400, 'Requisição inválida.');
+        }
+
+        $dados = $this->request->getData();
+
+        if (empty($dados)) {
+            return $this->gerarResposta(400, 'Informe a manutenção a ser corrigida.');
+        }
+
+        if (empty($dados['id'])) {
+            return $this->gerarResposta(400, 'Informe o código da manutenção a ser corrigida.');
+        }
+
+        if (empty($dados['manu_pecas'])) {
+            return $this->gerarResposta(400, 'Deve haver ao menos uma peça vinculada à manutenção.');
+        }
+
+        $id = $dados['id'];
+        $manuPecas = $dados['manu_pecas'];
+
+        $mensagemNaoEncontrado = '';
         $this->conexao->begin();
 
         try {
-            $id = $dados["id"];
-            $mensagemNaoEncontrado = "Não existe uma manutenção com o código "
-                . $id . " para ser corrigida.";
-            $manutencao = $this->Manutencaos->get($id, contain: []);
+            $mensagemNaoEncontrado = 'Não existe uma manutenção com o código '
+                . $id . ' para ser corrigida.';
+            $manutencao = $this->Manutencaos->get($id, contain: ['ManuPecas']);
+
+            $idsPecas = array_filter(array_column($manuPecas, 'id'));
+
+            foreach ($manutencao->get("manu_pecas") as $manuPeca) {
+                debug($manuPeca);
+                // TODO: implementar inserção, atualização e exclusão sincronizada
+            }
+
+            exit;
+
+
+
 
             $manutencao = $this->Manutencaos->patchEntity(
                 $manutencao,
@@ -172,7 +200,7 @@ class ManutencaosController extends AppController
 
             $this->Manutencaos->saveOrFail($manutencao);
 
-            return $this->gerarResposta(200, "Manutenção corrigida com sucesso.");
+            return $this->gerarResposta(200, 'Manutenção corrigida com sucesso.');
         }
         catch (RecordNotFoundException) {
             $this->conexao->rollback();
@@ -188,20 +216,13 @@ class ManutencaosController extends AppController
         }
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Manutencao id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function delete()
     {
         if (!$this->request->is('post')) {
-            return $this->gerarResposta(400, "Tipo de requisição inválido.");
+            return $this->gerarResposta(400, 'Tipo de requisição inválido.');
         }
 
-        $id = $this->request->getData("id");
+        $id = $this->request->getData('id');
 
         try {
             $manutencao = $this->Manutencaos->get($id);
