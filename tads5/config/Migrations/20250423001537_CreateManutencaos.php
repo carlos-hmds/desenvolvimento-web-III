@@ -15,6 +15,11 @@ class CreateManutencaos extends BaseMigration
     public function change(): void
     {
         $table = $this->table('manutencaos');
+        $table->addColumn('descricao', 'string', [
+           'default' => null,
+           'limit' => 256,
+           'null' => false,
+        ]);
         $table->addColumn('data', 'date', [
             'default' => null,
             'null' => false,

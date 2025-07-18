@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * Manutencao Entity
  *
  * @property int $id
+ * @property string $descricao
  * @property \Cake\I18n\Date $data
  * @property string $valor
  * @property int|null $notaFiscal
@@ -35,6 +36,7 @@ class Manutencao extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
+        'descricao' => true,
         'data' => true,
         'valor' => true,
         'notaFiscal' => true,

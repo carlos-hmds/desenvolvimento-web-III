@@ -6,6 +6,7 @@ namespace App\Controller;
 use Cake\Database\Exception\DatabaseException;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\ORM\Exception\PersistenceFailedException;
@@ -21,39 +22,7 @@ class ManutencaosController extends AppController
        $this->conexao = $this->Manutencaos->getConnection();
    }
 
-    public function index()
-    {
-        $msgNaoEncontrado = '';
-
-        try {
-            $dados = $this->request->getData();
-
-            if (empty($dados)) {
-                return $this->gerarResposta(400, 'Dados ausentes.');
-            }
-
-            $id = $this->request->getData('id');
-
-            if (!$id) {
-                return $this->gerarResposta(400, 'Informe o código da manutenção para buscá-la.');
-            }
-
-            $mensagem = 'Manutenção de código ' . $id . ' não encontrada.';
-            $manutencao = $this->Manutencaos->get($id, contain: [
-                'ManuPecas.Pecas'
-            ]);
-
-            return $this->gerarResposta(200, $manutencao);
-        }
-        catch (RecordNotFoundException $e) {
-            return $this->gerarResposta(400, $msgNaoEncontrado);
-        }
-        catch (Exception $e) {
-            return $this->gerarResposta(400, $e->getMessage());
-        }
-    }
-
-    public function view()
+    public function index(): Response
     {
         if (!$this->request->is('post')) {
             return $this->gerarResposta(400, 'Requisição não suportada.');
@@ -111,14 +80,56 @@ class ManutencaosController extends AppController
                 $query = $query->where(['data <= ' => new Date($dataFinal)], ['data' => 'date']);
             }
 
-            return $this->gerarResposta(200, $query->toArray());
+            return $this->gerarResposta(200, [
+                $this->chaveMensagem => 'Manutenções listadas com sucesso.',
+                $this->chaveRetorno => $query->toArray(),
+            ]);
         }
         catch (Exception $e) {
             return $this->gerarResposta(400, $e->getMessage());
         }
     }
 
-    public function add(): \Cake\Http\Response
+    public function view(): Response
+    {
+        $msgNaoEncontrado = '';
+
+        try {
+            $dados = $this->request->getData();
+
+            if (empty($dados)) {
+                return $this->gerarResposta(400, 'Dados ausentes.');
+            }
+
+            $id = $this->request->getData('id');
+
+            if (!$id) {
+                return $this->gerarResposta(400, 'Informe o código da manutenção para buscá-la.');
+            }
+
+            $msgNaoEncontrado = 'Manutenção de código ' . $id . ' não encontrada.';
+            $manutencao = $this->Manutencaos->get($id, contain: [
+                'ManuPecas.Pecas'
+            ]);
+
+            return $this->gerarResposta(200, [
+                $this->chaveRetorno => $manutencao,
+                $this->chaveMensagem => 'Manutenção encontrada.',
+            ]);
+        }
+        catch (RecordNotFoundException $e) {
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $msgNaoEncontrado,
+            ]);
+        }
+        catch (Exception $e) {
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function add(): Response
     {
         if (!$this->request->is('post')) {
             return $this->gerarResposta(400, 'Requisição inválida.');
@@ -143,14 +154,24 @@ class ManutencaosController extends AppController
             ]);
 
             $manutencao = $this->Manutencaos->saveOrFail($manutencao);
-            return $this->gerarResposta(200, ['id' => $manutencao["id"]]);
+            return $this->gerarResposta(200, [
+                'id' => $manutencao["id"],
+                $this->chaveMensagem => 'Manutenção lançada com sucesso.',
+            ]);
         }
         catch (PersistenceFailedException $e) {
-            return $this->gerarResposta(400, $e->getAttributes());
+            return $this->gerarResposta(400, [
+                $this->chaveErros => $e->getAttributes(),
+            ]);
+        }
+        catch (Exception $e) {
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $e->getMessage()
+            ]);
         }
     }
 
-    public function edit()
+    public function edit(): Response
     {
         if (!$this->request->is('post')) {
             return $this->gerarResposta(400, 'Requisição inválida.');
@@ -181,59 +202,82 @@ class ManutencaosController extends AppController
                 . $id . ' para ser corrigida.';
             $manutencao = $this->Manutencaos->get($id, contain: ['ManuPecas']);
 
-            $idsPecas = array_filter(array_column($manuPecas, 'id'));
+            $idsManuPecas = array_filter(array_column($manuPecas, 'id'));
 
             foreach ($manutencao->get("manu_pecas") as $manuPeca) {
-                debug($manuPeca);
-                // TODO: implementar inserção, atualização e exclusão sincronizada
+                $vinculoIncluso = in_array($manuPeca["id"], $idsManuPecas);
+
+                if (!$vinculoIncluso) {
+                    $this->Manupecas->delete($manuPeca);
+                }
             }
 
-            exit;
-
-
-
-
-            $manutencao = $this->Manutencaos->patchEntity(
-                $manutencao,
-                $dados,
-            );
+            $manutencao = $this->Manutencaos->patchEntity($manutencao, $dados, [
+               'associated' => ['ManuPecas']
+            ]);
 
             $this->Manutencaos->saveOrFail($manutencao);
+            $this->conexao->commit();
 
-            return $this->gerarResposta(200, 'Manutenção corrigida com sucesso.');
+            return $this->gerarResposta(200, [
+                $this->chaveMensagem => 'Manutenção corrigida com sucesso.'
+            ]);
         }
         catch (RecordNotFoundException) {
             $this->conexao->rollback();
-            return $this->gerarResposta(400, $mensagemNaoEncontrado);
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $mensagemNaoEncontrado
+            ]);
         }
         catch (PersistenceFailedException $e) {
             $this->conexao->rollback();
-            return $this->gerarResposta(400, $e->getAttributes());
+            return $this->gerarResposta(400, [
+                $this->chaveErros => $e->getAttributes()
+            ]);
         }
         catch (Exception $e) {
             $this->conexao->rollback();
-            return $this->gerarResposta(400, $e->getMessage());
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $e->getMessage()
+            ]);
         }
     }
 
-    public function delete()
+    public function delete(): Response
     {
         if (!$this->request->is('post')) {
-            return $this->gerarResposta(400, 'Tipo de requisição inválido.');
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => 'Tipo de requisição inválido.',
+            ]);
         }
 
         $id = $this->request->getData('id');
 
+        if (!$id) {
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => 'Informe o código da manutenção a ser excluída.',
+            ]);
+        }
+
+        $mensagemNaoEncontrada = 'Não existe uma manutenção com o código ' . $id . ' para ser excluída.';
+
         try {
             $manutencao = $this->Manutencaos->get($id);
             $this->Manutencaos->deleteOrFail($manutencao);
+
+            return $this->gerarResposta(200, [
+               $this->chaveMensagem => 'Manutenção excluída com sucesso.',
+            ]);
         }
         catch (RecordNotFoundException) {
-
+            return $this->gerarResposta(400, [
+                $this->chaveMensagem => $mensagemNaoEncontrada
+            ]);
         }
         catch (PersistenceFailedException $e) {
-
+            return $this->gerarResposta(400, [
+                $this->chaveErros => $e->getAttributes()
+            ]);
         }
-
     }
 }

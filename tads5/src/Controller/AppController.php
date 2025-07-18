@@ -47,7 +47,11 @@ class AppController extends Controller
     protected \Cake\ORM\Table $Manutencaos;
     protected \Cake\ORM\Table $Manupecas;
 
-    public function beforeFilter(EventInterface $event)
+    protected string $chaveMensagem = 'mensagem';
+    protected string $chaveErros = 'erros';
+    protected string $chaveRetorno = 'retorno';
+
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $acao = $this->request->getParam("action");

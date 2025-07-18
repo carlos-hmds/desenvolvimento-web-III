@@ -73,6 +73,12 @@ class ManutencaosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('descricao')
+            ->maxLength('descricao', 256)
+            ->requirePresence('descricao', 'create')
+            ->notEmptyString('descricao');
+
+        $validator
             ->date('data')
             ->requirePresence('data', 'create')
             ->notEmptyDate('data');
