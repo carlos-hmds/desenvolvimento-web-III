@@ -61,9 +61,6 @@ class PagesController extends AppController
      */
     public function getUsers()
     {
-        $response = null;
-        $statusCode = 200;
-
         $consulta = $this->Users->find();
 
         if ($this->request->is("post") && !empty($this->request->getData("id")[0])) {
@@ -76,7 +73,7 @@ class PagesController extends AppController
             $response = $consulta->all();
         }
 
-        return $this->gerarResposta($statusCode, $response);
+        return $this->sucesso('', $response);
     }
 
     private function gerarHash(): string
@@ -107,19 +104,17 @@ class PagesController extends AppController
         $response = null;
         $statusCode = 200;
 
-        $this->loadComponent("Authentication.Authentication");
+        $this->loadComponent('Authentication.Authentication');
         $this->Authentication->logout();
         $result = $this->Authentication->getResult();
 
-        if (!$result || !$result->isValid())
-        {
-            return $this->gerarResposta(400, "E-mail ou senha inválidos.");
+        if (!$result || !$result->isValid()) {
+            return $this->erro('E-mail ou senha inválidos.');
         }
 
-        $user_id = $result->getData()["id"];
+        $user_id = $result->getData()['id'];
 
-        try
-        {
+        try {
             $salvar["user_id"] = $user_id;
             $salvar["autenticacao"] = $this->gerarHash();
             $salvar["expiracao"] = $this->obterDataExpiracao();
@@ -130,13 +125,11 @@ class PagesController extends AppController
                 ->limit(1)
                 ->first();
 
-            if ($retorno)
-            {
+            if ($retorno) {
                 $autenticacao_id = $retorno["id"];
                 $autenticacao = $this->Autenticacaos->get($autenticacao_id, contain: []);
             }
-            else
-            {
+            else {
                 $autenticacao = $this->Autenticacaos->newEmptyEntity();
             }
 
@@ -146,13 +139,11 @@ class PagesController extends AppController
             $response["mensagem"] = "Login realizado com sucesso.";
             $response["hash"] = $autenticacao["autenticacao"];
         }
-        catch (PersistenceFailedException $e)
-        {
-            $statusCode = 400;
-            $response = $e->getAttributes();
+        catch (PersistenceFailedException $e) {
+            return $this->erro('Ocorreram um ou mais erros ao realizar o login: ', $e->getAttributes());
         }
 
-        return $this->gerarResposta($statusCode, $response);
+        return $this->sucesso('Login realizado com sucesso.', $response);
     }
 
     public function logout()

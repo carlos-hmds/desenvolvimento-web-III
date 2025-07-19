@@ -50,16 +50,18 @@ class AppController extends Controller
     protected string $chaveMensagem = 'mensagem';
     protected string $chaveErros = 'erros';
     protected string $chaveRetorno = 'retorno';
+    protected array $conteudoResposta;
 
-    public function beforeFilter(EventInterface $event): void
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
-        $acao = $this->request->getParam("action");
+        $acao = $this->request->getParam('action');
 
-        if ($acao !== "login" && $acao !== "addUser" && !$this->possuiTokenValido())
-        {
-            throw new UnauthorizedException("Não autorizado.");
+        if ($acao !== 'login' && $acao !== 'addUser' && !$this->possuiTokenValido()) {
+            throw new UnauthorizedException('Não autorizado.');
         }
+
+        $this->conteudoResposta = [];
     }
 
     /**
@@ -100,8 +102,7 @@ class AppController extends Controller
 
     protected function possuiTokenValido(): bool
     {
-        if (empty($this->request->getHeader("Authentication")[0]))
-        {
+        if (empty($this->request->getHeader("Authentication")[0])) {
             return false;
         }
 
@@ -121,11 +122,11 @@ class AppController extends Controller
 
     protected function enviarEmail($destinatario, $mensagem, $assunto = "TADS5", $copia = null): void
     {
-        $mailer = new Mailer("default");
+        $mailer = new Mailer('default');
 
-        $mailer->setFrom(env("EMAIL_TRANSPORT_USERNAME"))
+        $mailer->setFrom(env('EMAIL_TRANSPORT_USERNAME'))
             ->setTo($destinatario)
-            ->setEmailFormat("html");
+            ->setEmailFormat('html');
 
         $mailer->setSubject($assunto);
 
@@ -136,12 +137,25 @@ class AppController extends Controller
         $mailer->deliver($mensagem);
     }
 
-    protected function gerarResposta($codigo, $retorno): Response
+    protected function gerarResposta($codigo): Response
     {
         return $this->response
-            ->withHeader("Access-Control-Allow-Origin", "*")
+            ->withHeader('Access-Control-Allow-Origin', "*")
             ->withStatus($codigo)
-            ->withType("aplication/json")
-            ->withStringBody(json_encode($retorno));
+            ->withType('application/json')
+            ->withStringBody(json_encode($this->conteudoResposta, JSON_UNESCAPED_UNICODE));
+    }
+
+    protected function erro($mensagem, $erros = [], $codigo = 400): Response
+    {
+        $this->conteudoResposta[$this->chaveMensagem] = $mensagem;
+        $this->conteudoResposta[$this->chaveErros] = $erros;
+        return $this->gerarResposta($codigo);
+    }
+
+    protected function sucesso($mensagem, $dados = [], $codigo = 200): Response
+    {
+        $this->conteudoResposta[$this->chaveRetorno] = $dados;
+        return $this->gerarResposta($codigo);
     }
 }

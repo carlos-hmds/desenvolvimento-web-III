@@ -11,7 +11,7 @@ class VisualizacaosController extends AppController
         $statusCode = 200;
 
         if (!$this->request->is('POST')) {
-            return $this->gerarResposta(400, 'Requisição inválida.');
+            return $this->erro('Requisição inválida.');
         }
 
         if (empty($this->request->getData())) {
@@ -57,6 +57,6 @@ class VisualizacaosController extends AppController
             // Veículo: Modelo, placa e nome do fabricante
         }
 
-        return $this->gerarResposta($statusCode, $response);
+        return $this->sucesso($response);
     }
 }
