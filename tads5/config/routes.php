@@ -75,6 +75,13 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/manutencoes/edit', ['controller' => 'Manutencaos', 'action' => 'edit']);
         $builder->connect('/manutencoes/delete', ['controller' => 'Manutencaos', 'action' => 'delete']);
 
+        // Peças
+        $builder->connect('/pecas', ['controller' => 'Pecas', 'action' => 'index']);
+        $builder->connect('/pecas/view', ['controller' => 'Pecas', 'action' => 'view']);
+        $builder->connect('/pecas/add', ['controller' => 'Pecas', 'action' => 'add']);
+        $builder->connect('/pecas/edit', ['controller' => 'Pecas', 'action' => 'edit']);
+        $builder->connect('/pecas/delete', ['controller' => 'Pecas', 'action' => 'delete']);
+
         // Visualizações
         $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);
 

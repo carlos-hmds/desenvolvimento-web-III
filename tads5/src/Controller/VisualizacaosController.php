@@ -51,10 +51,6 @@ class VisualizacaosController extends AppController
                 ->find()
                 ->where(['id' => $id])
                 ->first();
-
-            // Fornecedor: CNPJ, nome e telefone
-            // Número da nota, valor e data
-            // Veículo: Modelo, placa e nome do fabricante
         }
 
         return $this->sucesso($response);
