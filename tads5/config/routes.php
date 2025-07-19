@@ -68,10 +68,14 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/addManutencao', ['controller' => 'Adicionas', 'action' => 'addManutencao']);
         $builder->connect('/addManupeca', ['controller' => 'Adicionas', 'action' => 'addManupeca']);
 
-        $builder->connect('/editManutencao', ['controller' => 'Manutencaos', 'action' => 'edit']);
+        // Manutenções
+        $builder->connect('/manutencoes', ['controller' => 'Manutencaos', 'action' => 'index']);
+        $builder->connect('/manutencoes/view', ['controller' => 'Manutencaos', 'action' => 'view']);
+        $builder->connect('/manutencoes/add', ['controller' => 'Manutencaos', 'action' => 'add']);
+        $builder->connect('/manutencoes/edit', ['controller' => 'Manutencaos', 'action' => 'edit']);
+        $builder->connect('/manutencoes/delete', ['controller' => 'Manutencaos', 'action' => 'delete']);
 
-        // VisualizacaosController
-
+        // Visualizações
         $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);
 
         /*
