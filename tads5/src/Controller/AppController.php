@@ -155,6 +155,7 @@ class AppController extends Controller
 
     protected function sucesso($mensagem, $dados = [], $codigo = 200): Response
     {
+        $this->conteudoResposta[$this->chaveMensagem] = $mensagem;
         $this->conteudoResposta[$this->chaveRetorno] = $dados;
         return $this->gerarResposta($codigo);
     }
