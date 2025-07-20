@@ -56,7 +56,6 @@ return function (RouteBuilder $routes): void {
          * to use (in this case, templates/Pages/home.php)...
          */
         $builder->connect('/getUsers', ['controller' => 'Pages', 'action' => 'getUsers']);
-        $builder->connect('/login', ['controller' => 'Pages', 'action' => 'login']);
 
         $builder->connect('/addUser', ['controller' => 'Adicionas', 'action' => 'addUser']);
         $builder->connect('/addServico', ['controller' => 'Adicionas', 'action' => 'addServico']);
@@ -68,12 +67,12 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/addManutencao', ['controller' => 'Adicionas', 'action' => 'addManutencao']);
         $builder->connect('/addManupeca', ['controller' => 'Adicionas', 'action' => 'addManupeca']);
 
-        // Manutenções
-        $builder->connect('/manutencoes', ['controller' => 'Manutencaos', 'action' => 'index']);
-        $builder->connect('/manutencoes/view', ['controller' => 'Manutencaos', 'action' => 'view']);
-        $builder->connect('/manutencoes/add', ['controller' => 'Manutencaos', 'action' => 'add']);
-        $builder->connect('/manutencoes/edit', ['controller' => 'Manutencaos', 'action' => 'edit']);
-        $builder->connect('/manutencoes/delete', ['controller' => 'Manutencaos', 'action' => 'delete']);
+        // Tipos de serviços
+        $builder->connect('/tipos-servicos', ['controller' => 'TipoServicos', 'action' => 'index']);
+        $builder->connect('/tipos-servicos/view', ['controller' => 'TipoServicos', 'action' => 'view']);
+        $builder->connect('/tipos-servicos/add', ['controller' => 'TipoServicos', 'action' => 'add']);
+        $builder->connect('/tipos-servicos/edit', ['controller' => 'TipoServicos', 'action' => 'edit']);
+        $builder->connect('/tipos-servicos/delete', ['controller' => 'TipoServicos', 'action' => 'delete']);
 
         // Peças
         $builder->connect('/pecas', ['controller' => 'Pecas', 'action' => 'index']);
@@ -81,6 +80,34 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/pecas/add', ['controller' => 'Pecas', 'action' => 'add']);
         $builder->connect('/pecas/edit', ['controller' => 'Pecas', 'action' => 'edit']);
         $builder->connect('/pecas/delete', ['controller' => 'Pecas', 'action' => 'delete']);
+
+        // Categorias de peças
+        $builder->connect('/pecas/categorias', ['controller' => 'CategoriaPecas', 'action' => 'index']);
+        $builder->connect('/pecas/categorias/view', ['controller' => 'CategoriaPecas', 'action' => 'view']);
+        $builder->connect('/pecas/categorias/add', ['controller' => 'CategoriaPecas', 'action' => 'add']);
+        $builder->connect('/pecas/categorias/edit', ['controller' => 'CategoriaPecas', 'action' => 'edit']);
+        $builder->connect('/pecas/categorias/delete', ['controller' => 'CategoriaPecas', 'action' => 'delete']);
+
+        // Marcas de peças
+        $builder->connect('/pecas/marcas', ['controller' => 'MarcaPecas', 'action' => 'index']);
+        $builder->connect('/pecas/marcas/view', ['controller' => 'MarcaPecas', 'action' => 'view']);
+        $builder->connect('/pecas/marcas/add', ['controller' => 'MarcaPecas', 'action' => 'add']);
+        $builder->connect('/pecas/marcas/edit', ['controller' => 'MarcaPecas', 'action' => 'edit']);
+        $builder->connect('/pecas/marcas/delete', ['controller' => 'MarcaPecas', 'action' => 'delete']);
+
+        // Usuários
+        $builder->connect('/users', ['controller' => 'Users', 'action' => 'index']);
+        $builder->connect('/users/view', ['controller' => 'Users', 'action' => 'view']);
+        $builder->connect('/users/add', ['controller' => 'Users', 'action' => 'add']);
+        $builder->connect('/users/edit', ['controller' => 'Users', 'action' => 'edit']);
+        $builder->connect('/users/delete', ['controller' => 'Users', 'action' => 'delete']);
+
+        // Manutenções
+        $builder->connect('/manutencoes', ['controller' => 'Manutencaos', 'action' => 'index']);
+        $builder->connect('/manutencoes/view', ['controller' => 'Manutencaos', 'action' => 'view']);
+        $builder->connect('/manutencoes/add', ['controller' => 'Manutencaos', 'action' => 'add']);
+        $builder->connect('/manutencoes/edit', ['controller' => 'Manutencaos', 'action' => 'edit']);
+        $builder->connect('/manutencoes/delete', ['controller' => 'Manutencaos', 'action' => 'delete']);
 
         // Visualizações
         $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);

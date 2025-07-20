@@ -56,8 +56,9 @@ class AppController extends Controller
     {
         parent::beforeFilter($event);
         $acao = $this->request->getParam('action');
+        $controlador = $this->request->getParam('controller');
 
-        if ($acao !== 'login' && $acao !== 'addUser' && !$this->possuiTokenValido()) {
+        if (($controlador !== 'User' && ($acao !== 'login' && $acao !== 'add')) && !$this->possuiTokenValido()) {
             throw new UnauthorizedException('Não autorizado.');
         }
 
@@ -140,7 +141,7 @@ class AppController extends Controller
     protected function gerarResposta($codigo): Response
     {
         return $this->response
-            ->withHeader('Access-Control-Allow-Origin', "*")
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($codigo)
             ->withType('application/json')
             ->withStringBody(json_encode($this->conteudoResposta, JSON_UNESCAPED_UNICODE));

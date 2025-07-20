@@ -101,11 +101,8 @@ class PagesController extends AppController
 
     public function login()
     {
-        $response = null;
-        $statusCode = 200;
-
         $this->loadComponent('Authentication.Authentication');
-        $this->Authentication->logout();
+        $this->logout();
         $result = $this->Authentication->getResult();
 
         if (!$result || !$result->isValid()) {
@@ -136,19 +133,17 @@ class PagesController extends AppController
             $autenticacao = $this->Autenticacaos->patchEntity($autenticacao, $salvar);
             $this->Autenticacaos->saveOrFail($autenticacao);
 
-            $response["mensagem"] = "Login realizado com sucesso.";
-            $response["hash"] = $autenticacao["autenticacao"];
+            return $this->sucesso('Login realizado com sucesso.', [
+                'hash' => $autenticacao['autenticacao']
+            ]);
         }
         catch (PersistenceFailedException $e) {
             return $this->erro('Ocorreram um ou mais erros ao realizar o login: ', $e->getAttributes());
         }
-
-        return $this->sucesso('Login realizado com sucesso.', $response);
     }
 
     public function logout()
     {
         $this->Authentication->logout();
-        //return $this->redirect(['controller' => 'Pages', 'action' => 'login']);
     }
 }
