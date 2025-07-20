@@ -62,7 +62,7 @@ class PecasController extends AppController
             return $this->sucesso('Peças listadas com sucesso.', $pecas);
         }
         catch (Exception $e) {
-            return $this->erro('Houve um erro ao conferir a peça: ' . $e->getMessage());
+            return $this->erro('Houve um erro ao listar as peças: ' . $e->getMessage());
         }
     }
 

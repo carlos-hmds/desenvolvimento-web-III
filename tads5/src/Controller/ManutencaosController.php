@@ -28,11 +28,10 @@ class ManutencaosController extends AppController
         }
 
         $dados = $this->request->getData();
-
-        $manutencaos = $this->fetchTable('Manutencaos');
-        $query = $manutencaos
+        $query = $this->Manutencaos
             ->find()
             ->select([
+                'id' => 'Manutencaos.id',
                 'cnpj_fornecedor' => 'Fornecedors.cnpj',
                 'nome_fornecedor' => 'Fornecedors.nome',
                 'telefone_fornecedor' => 'Fornecedors.telefone',
@@ -42,6 +41,7 @@ class ManutencaosController extends AppController
                 'nota_fiscal' => 'Manutencaos.notaFiscal',
                 'valor_manutencao' => 'Manutencaos.valor',
                 'data_manutencao' => 'Manutencaos.data',
+                'quantidade_pecas' => 'COUNT(*)',
             ])
             ->join([
                 'table' => 'Fornecedors',
@@ -57,6 +57,15 @@ class ManutencaosController extends AppController
                 'table' => 'Fabricantes',
                 'type' => 'INNER',
                 'conditions' => 'Fabricantes.id = Veiculos.fabricante_id',
+            ])
+            ->join([
+                'table' => 'Manu_Pecas',
+                'type' => 'INNER',
+                'conditions' => 'Manu_Pecas.manutencao_id = Manutencaos.id',
+            ])
+            ->groupBy([
+                'Manutencaos.id', 'Fornecedors.cnpj', 'Fornecedors.nome', 'Fornecedors.telefone', 'Veiculos.modelo', 'Veiculos.placa',
+                'Fabricantes.abreviado', 'Manutencaos.notaFiscal', 'Manutencaos.valor', 'Manutencaos.data',
             ]);
 
         try {
@@ -118,7 +127,6 @@ class ManutencaosController extends AppController
             ]);
 
             $manutencao = $this->Manutencaos->saveOrFail($manutencao);
-            $codigo = 200;
 
             return $this->sucesso('Manutenção lançada com sucesso', [
                 'id' => $manutencao["id"]
