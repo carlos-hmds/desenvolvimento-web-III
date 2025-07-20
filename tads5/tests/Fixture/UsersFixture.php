@@ -27,8 +27,8 @@ class UsersFixture extends TestFixture
                 'dtNasc' => '2025-07-20',
                 'email' => 'Lorem ipsum dolor sit amet',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:19:43',
-                'modified' => '2025-07-20 19:19:43',
+                'created' => '2025-07-20 19:40:20',
+                'modified' => '2025-07-20 19:40:20',
             ],
         ];
         parent::init();

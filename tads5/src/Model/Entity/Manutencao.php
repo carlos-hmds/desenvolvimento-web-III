@@ -20,7 +20,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Veiculo $veiculo
  * @property \App\Model\Entity\Fornecedor $fornecedor
- * @property \App\Model\Entity\ManutencaoItem[] $manutencao_items
+ * @property \App\Model\Entity\ItemManutencao[] $item_manutencaos
  */
 class Manutencao extends Entity
 {
@@ -44,6 +44,6 @@ class Manutencao extends Entity
         'fornecedor_id' => true,
         'veiculo' => true,
         'fornecedor' => true,
-        'manutencao_items' => true,
+        'item_manutencaos' => true,
     ];
 }

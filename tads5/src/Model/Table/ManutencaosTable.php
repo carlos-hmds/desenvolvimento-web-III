@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\VeiculosTable&\Cake\ORM\Association\BelongsTo $Veiculos
  * @property \App\Model\Table\FornecedorsTable&\Cake\ORM\Association\BelongsTo $Fornecedors
- * @property \App\Model\Table\ManutencaoItemsTable&\Cake\ORM\Association\HasMany $ManutencaoItems
+ * @property \App\Model\Table\ItemManutencaosTable&\Cake\ORM\Association\HasMany $ItemManutencaos
  *
  * @method \App\Model\Entity\Manutencao newEmptyEntity()
  * @method \App\Model\Entity\Manutencao newEntity(array $data, array $options = [])
@@ -44,7 +44,7 @@ class ManutencaosTable extends Table
         parent::initialize($config);
 
         $this->setTable('manutencaos');
-        $this->setDisplayField('ativo');
+        $this->setDisplayField('descricao');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -57,8 +57,10 @@ class ManutencaosTable extends Table
             'foreignKey' => 'fornecedor_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ManutencaoItems', [
+        $this->hasMany('ItemManutencaos', [
             'foreignKey' => 'manutencao_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
     }
 

@@ -9,28 +9,28 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * ManutencaoItems Model
+ * ItemManutencaos Model
  *
  * @property \App\Model\Table\ManutencaosTable&\Cake\ORM\Association\BelongsTo $Manutencaos
  * @property \App\Model\Table\PecasTable&\Cake\ORM\Association\BelongsTo $Pecas
  *
- * @method \App\Model\Entity\ManutencaoItem newEmptyEntity()
- * @method \App\Model\Entity\ManutencaoItem newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\ManutencaoItem> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\ManutencaoItem get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\ManutencaoItem findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\ManutencaoItem patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\ManutencaoItem> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\ManutencaoItem|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\ManutencaoItem saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\ManutencaoItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ManutencaoItem>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\ManutencaoItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ManutencaoItem> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\ManutencaoItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ManutencaoItem>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\ManutencaoItem>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ManutencaoItem> deleteManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\ItemManutencao newEmptyEntity()
+ * @method \App\Model\Entity\ItemManutencao newEntity(array $data, array $options = [])
+ * @method array<\App\Model\Entity\ItemManutencao> newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\ItemManutencao get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\ItemManutencao findOrCreate($search, ?callable $callback = null, array $options = [])
+ * @method \App\Model\Entity\ItemManutencao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method array<\App\Model\Entity\ItemManutencao> patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\ItemManutencao|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\ItemManutencao saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method iterable<\App\Model\Entity\ItemManutencao>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ItemManutencao>|false saveMany(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\ItemManutencao>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ItemManutencao> saveManyOrFail(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\ItemManutencao>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ItemManutencao>|false deleteMany(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\ItemManutencao>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\ItemManutencao> deleteManyOrFail(iterable $entities, array $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class ManutencaoItemsTable extends Table
+class ItemManutencaosTable extends Table
 {
     /**
      * Initialize method
@@ -42,7 +42,7 @@ class ManutencaoItemsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('manutencao_items');
+        $this->setTable('item_manutencaos');
         $this->setDisplayField('ativo');
         $this->setPrimaryKey('id');
 

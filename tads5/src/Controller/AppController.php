@@ -49,7 +49,7 @@ class AppController extends Controller
     protected \Cake\ORM\Table $Metricas;
     protected \Cake\ORM\Table $FrequenciaManutencaos;
     protected \Cake\ORM\Table $Manutencaos;
-    protected \Cake\ORM\Table $ManutencaoItems;
+    protected \Cake\ORM\Table $ItemManutencaos;
 
     protected string $chaveMensagem = 'mensagem';
     protected string $chaveErros = 'erros';
@@ -106,7 +106,7 @@ class AppController extends Controller
         $this->Metricas = $locator->get('Metricas');
         $this->FrequenciaManutencaos = $locator->get('FrequenciaManutencaos');
         $this->Manutencaos = $locator->get('Manutencaos');
-        $this->ManutencaoItems = $locator->get('ManutencaoItems');
+        $this->ItemManutencaos = $locator->get('ItemManutencaos');
 
         $GLOBALS['connection'] = ConnectionManager::get('default');
     }

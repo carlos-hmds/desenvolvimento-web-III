@@ -14,7 +14,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MarcaPecasTable&\Cake\ORM\Association\BelongsTo $MarcaPecas
  * @property \App\Model\Table\CategoriaPecasTable&\Cake\ORM\Association\BelongsTo $CategoriaPecas
  * @property \App\Model\Table\FornecedorsTable&\Cake\ORM\Association\BelongsTo $Fornecedors
- * @property \App\Model\Table\ManutencaoItemsTable&\Cake\ORM\Association\HasMany $ManutencaoItems
  *
  * @method \App\Model\Entity\Peca newEmptyEntity()
  * @method \App\Model\Entity\Peca newEntity(array $data, array $options = [])
@@ -61,7 +60,7 @@ class PecasTable extends Table
             'foreignKey' => 'fornecedor_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ManutencaoItems', [
+        $this->hasMany('ItemManutencaos', [
             'foreignKey' => 'peca_id',
         ]);
     }

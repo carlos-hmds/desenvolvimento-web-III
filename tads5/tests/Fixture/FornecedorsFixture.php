@@ -32,8 +32,8 @@ class FornecedorsFixture extends TestFixture
                 'estado' => 'Lo',
                 'cep' => 'Lorem ip',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:19:52',
-                'modified' => '2025-07-20 19:19:52',
+                'created' => '2025-07-20 19:40:32',
+                'modified' => '2025-07-20 19:40:32',
                 'tipo_servico_id' => 1,
             ],
         ];

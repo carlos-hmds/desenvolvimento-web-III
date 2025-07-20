@@ -59,9 +59,9 @@ class ManutencaosController extends AppController
                 'conditions' => 'Fabricantes.id = Veiculos.fabricante_id',
             ])
             ->join([
-                'table' => 'Manutencao_Items',
+                'table' => 'Item_Manutencaos',
                 'type' => 'INNER',
-                'conditions' => 'Manutencao_Items.manutencao_id = Manutencaos.id',
+                'conditions' => 'Item_Manutencaos.manutencao_id = Manutencaos.id',
             ])
             ->groupBy([
                 'Manutencaos.id', 'Fornecedors.cnpj', 'Fornecedors.nome', 'Fornecedors.telefone', 'Veiculos.modelo', 'Veiculos.placa',
@@ -116,14 +116,14 @@ class ManutencaosController extends AppController
             return $this->erro('Informe a manutenção a ser lançada.');
         }
 
-        if (empty($dados['manutencao_items'])) {
+        if (empty($dados['item_manutencaos'])) {
             return $this->erro('Deve haver ao menos uma peça vinculada à manutenção.');
         }
 
         try {
             $manutencao = $this->Manutencaos->newEmptyEntity();
             $manutencao = $this->Manutencaos->patchEntity($manutencao, $dados, [
-                'associated' => ['ManutencaoItems']
+                'associated' => ['ItemManutencaos']
             ]);
 
             $manutencao = $this->Manutencaos->saveOrFail($manutencao);
@@ -161,24 +161,24 @@ class ManutencaosController extends AppController
         }
 
         $id = $dados['id'];
-        $manutencaoItem = $dados['manutencao_items'];
+        $itemManutencao = $dados['manutencao_items'];
 
         try {
             $this->conexao->begin();
-            $manutencao = $this->Manutencaos->get($id, contain: ['ManutencaoItems']);
+            $manutencao = $this->Manutencaos->get($id, contain: ['ItemManutencaos']);
 
-            $idsManuPecas = array_filter(array_column($manutencaoItem, 'id'));
+            $idsManuPecas = array_filter(array_column($itemManutencao, 'id'));
 
-            foreach ($manutencao->get("manu_pecas") as $manutencaoItem) {
-                $vinculoIncluso = in_array($manutencaoItem["id"], $idsManuPecas);
+            foreach ($manutencao->get("item_manutencaos") as $itemManutencao) {
+                $vinculoIncluso = in_array($itemManutencao["id"], $idsManuPecas);
 
                 if (!$vinculoIncluso) {
-                    $this->ManutencaoItems->delete($manutencaoItem);
+                    $this->ItemManutencaos->delete($itemManutencao);
                 }
             }
 
             $manutencao = $this->Manutencaos->patchEntity($manutencao, $dados, [
-               'associated' => ['ManutencaoItems']
+               'associated' => ['ItemManutencaos']
             ]);
 
             $this->Manutencaos->saveOrFail($manutencao);

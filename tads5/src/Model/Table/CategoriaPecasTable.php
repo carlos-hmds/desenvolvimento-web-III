@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * CategoriaPecas Model
  *
+ * @property \App\Model\Table\FrequenciaManutencaosTable&\Cake\ORM\Association\HasMany $FrequenciaManutencaos
  * @property \App\Model\Table\PecasTable&\Cake\ORM\Association\HasMany $Pecas
  *
  * @method \App\Model\Entity\CategoriaPeca newEmptyEntity()

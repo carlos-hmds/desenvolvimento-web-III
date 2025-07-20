@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ManutencaosTable;
+use App\Model\Table\ItemManutencaosTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ManutencaosTable Test Case
+ * App\Model\Table\ItemManutencaosTable Test Case
  */
-class ManutencaosTableTest extends TestCase
+class ItemManutencaosTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ManutencaosTable
+     * @var \App\Model\Table\ItemManutencaosTable
      */
-    protected $Manutencaos;
+    protected $ItemManutencaos;
 
     /**
      * Fixtures
@@ -24,10 +24,9 @@ class ManutencaosTableTest extends TestCase
      * @var list<string>
      */
     protected array $fixtures = [
-        'app.Manutencaos',
-        'app.Veiculos',
-        'app.Fornecedors',
         'app.ItemManutencaos',
+        'app.Manutencaos',
+        'app.Pecas',
     ];
 
     /**
@@ -38,8 +37,8 @@ class ManutencaosTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Manutencaos') ? [] : ['className' => ManutencaosTable::class];
-        $this->Manutencaos = $this->getTableLocator()->get('Manutencaos', $config);
+        $config = $this->getTableLocator()->exists('ItemManutencaos') ? [] : ['className' => ItemManutencaosTable::class];
+        $this->ItemManutencaos = $this->getTableLocator()->get('ItemManutencaos', $config);
     }
 
     /**
@@ -49,7 +48,7 @@ class ManutencaosTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Manutencaos);
+        unset($this->ItemManutencaos);
 
         parent::tearDown();
     }
@@ -58,7 +57,7 @@ class ManutencaosTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\ManutencaosTable::validationDefault()
+     * @uses \App\Model\Table\ItemManutencaosTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -69,7 +68,7 @@ class ManutencaosTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\ManutencaosTable::buildRules()
+     * @uses \App\Model\Table\ItemManutencaosTable::buildRules()
      */
     public function testBuildRules(): void
     {

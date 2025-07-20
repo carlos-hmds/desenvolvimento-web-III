@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateManutencaoItems extends BaseMigration
+class CreateItemManutencaos extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,7 @@ class CreateManutencaoItems extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('manutencao_items');
+        $table = $this->table('item_manutencaos');
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,

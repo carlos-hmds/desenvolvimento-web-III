@@ -24,8 +24,8 @@ class AutenticacaosFixture extends TestFixture
                 'user_id' => 1,
                 'expiracao' => '2025-07-20',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:10:19',
-                'modified' => '2025-07-20 19:10:19',
+                'created' => '2025-07-20 19:40:23',
+                'modified' => '2025-07-20 19:40:23',
             ],
         ];
         parent::init();

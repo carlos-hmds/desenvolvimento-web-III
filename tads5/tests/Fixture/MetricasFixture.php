@@ -23,8 +23,8 @@ class MetricasFixture extends TestFixture
                 'codigo' => 'Lorem ipsum dolor sit ',
                 'descricao' => 'Lorem ipsum dolor sit amet',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:20:16',
-                'modified' => '2025-07-20 19:20:16',
+                'created' => '2025-07-20 19:40:55',
+                'modified' => '2025-07-20 19:40:55',
             ],
         ];
         parent::init();

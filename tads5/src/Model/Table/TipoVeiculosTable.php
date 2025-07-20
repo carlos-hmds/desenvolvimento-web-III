@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * TipoVeiculos Model
  *
+ * @property \App\Model\Table\FrequenciaManutencaosTable&\Cake\ORM\Association\HasMany $FrequenciaManutencaos
  * @property \App\Model\Table\VeiculosTable&\Cake\ORM\Association\HasMany $Veiculos
  *
  * @method \App\Model\Entity\TipoVeiculo newEmptyEntity()

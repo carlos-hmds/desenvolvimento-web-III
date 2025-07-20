@@ -22,8 +22,8 @@ class TipoVeiculosFixture extends TestFixture
                 'id' => 1,
                 'descricao' => 'Lorem ipsum dolor sit amet',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:20:07',
-                'modified' => '2025-07-20 19:20:07',
+                'created' => '2025-07-20 19:40:46',
+                'modified' => '2025-07-20 19:40:46',
             ],
         ];
         parent::init();

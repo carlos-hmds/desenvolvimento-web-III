@@ -23,8 +23,8 @@ class FabricantesFixture extends TestFixture
                 'nome' => 'Lorem ipsum dolor sit amet',
                 'abreviado' => 'Lorem ipsum dolo',
                 'ativo' => 'L',
-                'created' => '2025-07-20 19:20:09',
-                'modified' => '2025-07-20 19:20:09',
+                'created' => '2025-07-20 19:40:48',
+                'modified' => '2025-07-20 19:40:48',
             ],
         ];
         parent::init();

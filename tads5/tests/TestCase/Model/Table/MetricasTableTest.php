@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\ManutencaosTable;
+use App\Model\Table\MetricasTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\ManutencaosTable Test Case
+ * App\Model\Table\MetricasTable Test Case
  */
-class ManutencaosTableTest extends TestCase
+class MetricasTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\ManutencaosTable
+     * @var \App\Model\Table\MetricasTable
      */
-    protected $Manutencaos;
+    protected $Metricas;
 
     /**
      * Fixtures
@@ -24,10 +24,8 @@ class ManutencaosTableTest extends TestCase
      * @var list<string>
      */
     protected array $fixtures = [
-        'app.Manutencaos',
-        'app.Veiculos',
-        'app.Fornecedors',
-        'app.ItemManutencaos',
+        'app.Metricas',
+        'app.FrequenciaManutencaos',
     ];
 
     /**
@@ -38,8 +36,8 @@ class ManutencaosTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Manutencaos') ? [] : ['className' => ManutencaosTable::class];
-        $this->Manutencaos = $this->getTableLocator()->get('Manutencaos', $config);
+        $config = $this->getTableLocator()->exists('Metricas') ? [] : ['className' => MetricasTable::class];
+        $this->Metricas = $this->getTableLocator()->get('Metricas', $config);
     }
 
     /**
@@ -49,7 +47,7 @@ class ManutencaosTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Manutencaos);
+        unset($this->Metricas);
 
         parent::tearDown();
     }
@@ -58,7 +56,7 @@ class ManutencaosTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\ManutencaosTable::validationDefault()
+     * @uses \App\Model\Table\MetricasTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -69,7 +67,7 @@ class ManutencaosTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\ManutencaosTable::buildRules()
+     * @uses \App\Model\Table\MetricasTable::buildRules()
      */
     public function testBuildRules(): void
     {

@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Metricas Model
  *
+ * @property \App\Model\Table\FrequenciaManutencaosTable&\Cake\ORM\Association\HasMany $FrequenciaManutencaos
+ *
  * @method \App\Model\Entity\Metrica newEmptyEntity()
  * @method \App\Model\Entity\Metrica newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Metrica> newEntities(array $data, array $options = [])
