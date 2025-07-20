@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Veiculos Model
  *
- * @property \App\Model\Table\TiposTable&\Cake\ORM\Association\BelongsTo $Tipos
+ * @property \App\Model\Table\TipoVeiculosTable&\Cake\ORM\Association\BelongsTo $TipoVeiculos
  * @property \App\Model\Table\FabricantesTable&\Cake\ORM\Association\BelongsTo $Fabricantes
  * @property \App\Model\Table\ManutencaosTable&\Cake\ORM\Association\HasMany $Manutencaos
  *
@@ -49,8 +49,8 @@ class VeiculosTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Tipos', [
-            'foreignKey' => 'tipo_id',
+        $this->belongsTo('TipoVeiculos', [
+            'foreignKey' => 'tipo_veiculo_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Fabricantes', [
@@ -88,18 +88,13 @@ class VeiculosTable extends Table
             ->notEmptyString('placa');
 
         $validator
-            ->integer('quilometragemInicial')
-            ->requirePresence('quilometragemInicial', 'create')
-            ->notEmptyString('quilometragemInicial');
-
-        $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');
 
         $validator
-            ->integer('tipo_id')
-            ->notEmptyString('tipo_id');
+            ->integer('tipo_veiculo_id')
+            ->notEmptyString('tipo_veiculo_id');
 
         $validator
             ->integer('fabricante_id')
@@ -117,7 +112,7 @@ class VeiculosTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['tipo_id'], 'Tipos'), ['errorField' => 'tipo_id']);
+        $rules->add($rules->existsIn(['tipo_veiculo_id'], 'TipoVeiculos'), ['errorField' => 'tipo_veiculo_id']);
         $rules->add($rules->existsIn(['fabricante_id'], 'Fabricantes'), ['errorField' => 'fabricante_id']);
 
         return $rules;

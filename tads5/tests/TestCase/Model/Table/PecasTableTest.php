@@ -25,8 +25,10 @@ class PecasTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.Pecas',
+        'app.MarcaPecas',
+        'app.CategoriaPecas',
         'app.Fornecedors',
-        'app.ManuPecas',
+        'app.ManutencaoItems',
     ];
 
     /**

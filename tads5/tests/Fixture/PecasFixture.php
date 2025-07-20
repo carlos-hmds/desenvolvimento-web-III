@@ -25,8 +25,10 @@ class PecasFixture extends TestFixture
                 'garantia' => 1,
                 'notaFiscal' => 1,
                 'ativo' => 'L',
-                'created' => '2025-04-22 21:47:45',
-                'modified' => '2025-04-22 21:47:45',
+                'created' => '2025-07-20 19:20:03',
+                'modified' => '2025-07-20 19:20:03',
+                'marca_peca_id' => 1,
+                'categoria_peca_id' => 1,
                 'fornecedor_id' => 1,
             ],
         ];

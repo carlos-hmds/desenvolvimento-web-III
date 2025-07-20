@@ -315,14 +315,14 @@ class AdicionasController extends AppController
 
         if ($this->request->is("post"))
         {
-            $manupeca = $this->Manupecas->newEmptyEntity();
+            $manutencaoItem = $this->ManutencaoItems->newEmptyEntity();
             $dados = $this->request->getData();
 
-            $manupeca = $this->Manupecas->patchEntity($manupeca, $dados);
+            $manutencaoItem = $this->ManutencaoItems->patchEntity($manutencaoItem, $dados);
 
             try
             {
-                $this->Manupecas->saveOrFail($manupeca);
+                $this->ManutencaoItems->saveOrFail($manutencaoItem);
                 $response = "Peça vinculada à manutenção com sucesso.";
             }
             catch (PersistenceFailedException $e)

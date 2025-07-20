@@ -6,15 +6,9 @@ namespace App\Controller;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Exception\PersistenceFailedException;
 use Exception;
-use PDOException;
 
 class PecasController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
     public function index()
     {
         $busca = $this->Pecas
@@ -66,13 +60,6 @@ class PecasController extends AppController
         }
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Peca id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function view()
     {
         if (!$this->request->is('post')) {
@@ -170,7 +157,7 @@ class PecasController extends AppController
         $dados = $this->request->getData();
 
         if (empty($dados)) {
-            return $this->erro('Informe a manutenção a ser corrigida.');
+            return $this->erro('Informe a peça a ser alterada.');
         }
 
         if (empty($dados['id'])) {
@@ -198,9 +185,7 @@ class PecasController extends AppController
 
     public function delete()
     {
-        if (!$this->request->is('post')) {
-            return $this->erro('Requisição inválida.');
-        }
+        $this->request->allowMethod(['post']);
 
         $id = $this->request->getData('id');
 

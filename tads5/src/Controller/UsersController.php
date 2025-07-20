@@ -78,7 +78,7 @@ class UsersController extends AppController
         try {
             $user = $this->Users->saveOrFail($user);
 
-            $mensagem = "<h1>Eba!</h1><br>Seu usuário do TADS5 foi criado com sucesso.";
+            $mensagem = '<h1>Eba!</h1><br>Seu usuário do TADS5 foi criado com sucesso.';
 
             $this->enviarEmail(
                 destinatario: $user['email'],

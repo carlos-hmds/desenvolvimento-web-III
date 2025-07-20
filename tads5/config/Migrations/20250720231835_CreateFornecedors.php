@@ -27,7 +27,7 @@ class CreateFornecedors extends BaseMigration
         ]);
         $table->addColumn('telefone', 'string', [
             'default' => null,
-            'limit' => 15,
+            'limit' => 11,
             'null' => false,
         ]);
         $table->addColumn('email', 'string', [
@@ -41,25 +41,26 @@ class CreateFornecedors extends BaseMigration
             'null' => false,
         ]);
         $table->addColumn('numero', 'string', [
-            'default' => 'S/N',
+            'default' => null,
             'limit' => 20,
-            'null' => true,
+            'null' => false,
         ]);
         $table->addColumn('bairro', 'string', [
             'default' => null,
             'limit' => 150,
-            'null' => true,
+            'null' => false,
         ]);
         $table->addColumn('complemento', 'string', [
             'default' => null,
             'limit' => 100,
-            'null' => true,
+            'null' => false,
         ]);
         $table->addColumn('cidade', 'string', [
             'default' => null,
             'limit' => 200,
             'null' => false,
-        ]);$table->addColumn('estado', 'string', [
+        ]);
+        $table->addColumn('estado', 'string', [
             'default' => null,
             'limit' => 2,
             'null' => false,
@@ -82,7 +83,7 @@ class CreateFornecedors extends BaseMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('servico_id', 'integer', [
+        $table->addColumn('tipo_servico_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,

@@ -62,7 +62,7 @@ class FabricantesTable extends Table
     {
         $validator
             ->scalar('nome')
-            ->maxLength('nome', 255)
+            ->maxLength('nome', 180)
             ->requirePresence('nome', 'create')
             ->notEmptyString('nome');
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateManutencaos extends BaseMigration
+class CreatePecas extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,28 +14,24 @@ class CreateManutencaos extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('manutencaos');
-        $table->addColumn('descricao', 'string', [
-           'default' => null,
-           'limit' => 256,
-           'null' => false,
-        ]);
-        $table->addColumn('data', 'date', [
+        $table = $this->table('pecas');
+        $table->addColumn('nome', 'string', [
             'default' => null,
+            'limit' => 180,
             'null' => false,
         ]);
         $table->addColumn('valor', 'decimal', [
             'default' => null,
             'null' => false,
             'precision' => 10,
-            'scale' => 6,
+            'scale' => 2,
         ]);
-        $table->addColumn('notaFiscal', 'integer', [
+        $table->addColumn('garantia', 'integer', [
             'default' => null,
             'limit' => 11,
-            'null' => true,
+            'null' => false,
         ]);
-        $table->addColumn('quilometragem', 'integer', [
+        $table->addColumn('notaFiscal', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
@@ -53,7 +49,12 @@ class CreateManutencaos extends BaseMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('veiculo_id', 'integer', [
+        $table->addColumn('marca_peca_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => true,
+        ]);
+        $table->addColumn('categoria_peca_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,

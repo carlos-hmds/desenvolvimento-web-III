@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreatePecas extends BaseMigration
+class CreateManutencaoItems extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,28 +14,7 @@ class CreatePecas extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('pecas');
-        $table->addColumn('nome', 'string', [
-            'default' => null,
-            'limit' => 180,
-            'null' => false,
-        ]);
-        $table->addColumn('valor', 'decimal', [
-            'default' => null,
-            'null' => false,
-            'precision' => 10,
-            'scale' => 2,
-        ]);
-        $table->addColumn('garantia', 'integer', [
-            'default' => 0,
-            'limit' => 11,
-            'null' => true,
-        ]);
-        $table->addColumn('notaFiscal', 'integer', [
-            'default' => null,
-            'limit' => 11,
-            'null' => true,
-        ]);
+        $table = $this->table('manutencao_items');
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,
@@ -49,7 +28,12 @@ class CreatePecas extends BaseMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('fornecedor_id', 'integer', [
+        $table->addColumn('manutencao_id', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
+        $table->addColumn('peca_id', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,

@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Fornecedors Model
  *
- * @property \App\Model\Table\ServicosTable&\Cake\ORM\Association\BelongsTo $Servicos
+ * @property \App\Model\Table\TipoServicosTable&\Cake\ORM\Association\BelongsTo $TipoServicos
  * @property \App\Model\Table\ManutencaosTable&\Cake\ORM\Association\HasMany $Manutencaos
  * @property \App\Model\Table\PecasTable&\Cake\ORM\Association\HasMany $Pecas
  *
@@ -49,8 +49,8 @@ class FornecedorsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Servicos', [
-            'foreignKey' => 'servico_id',
+        $this->belongsTo('TipoServicos', [
+            'foreignKey' => 'tipo_servico_id',
             'joinType' => 'INNER',
         ]);
         $this->hasMany('Manutencaos', [
@@ -83,7 +83,7 @@ class FornecedorsTable extends Table
 
         $validator
             ->scalar('telefone')
-            ->maxLength('telefone', 15)
+            ->maxLength('telefone', 11)
             ->requirePresence('telefone', 'create')
             ->notEmptyString('telefone');
 
@@ -101,17 +101,20 @@ class FornecedorsTable extends Table
         $validator
             ->scalar('numero')
             ->maxLength('numero', 20)
-            ->allowEmptyString('numero');
+            ->requirePresence('numero', 'create')
+            ->notEmptyString('numero');
 
         $validator
             ->scalar('bairro')
             ->maxLength('bairro', 150)
-            ->allowEmptyString('bairro');
+            ->requirePresence('bairro', 'create')
+            ->notEmptyString('bairro');
 
         $validator
             ->scalar('complemento')
             ->maxLength('complemento', 100)
-            ->allowEmptyString('complemento');
+            ->requirePresence('complemento', 'create')
+            ->notEmptyString('complemento');
 
         $validator
             ->scalar('cidade')
@@ -137,8 +140,8 @@ class FornecedorsTable extends Table
             ->notEmptyString('ativo');
 
         $validator
-            ->integer('servico_id')
-            ->notEmptyString('servico_id');
+            ->integer('tipo_servico_id')
+            ->notEmptyString('tipo_servico_id');
 
         return $validator;
     }
@@ -152,7 +155,7 @@ class FornecedorsTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['servico_id'], 'Servicos'), ['errorField' => 'servico_id']);
+        $rules->add($rules->existsIn(['tipo_servico_id'], 'TipoServicos'), ['errorField' => 'tipo_servico_id']);
 
         return $rules;
     }

@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\VeiculosTable&\Cake\ORM\Association\BelongsTo $Veiculos
  * @property \App\Model\Table\FornecedorsTable&\Cake\ORM\Association\BelongsTo $Fornecedors
- * @property \App\Model\Table\ManuPecasTable&\Cake\ORM\Association\HasMany $ManuPecas
+ * @property \App\Model\Table\ManutencaoItemsTable&\Cake\ORM\Association\HasMany $ManutencaoItems
  *
  * @method \App\Model\Entity\Manutencao newEmptyEntity()
  * @method \App\Model\Entity\Manutencao newEntity(array $data, array $options = [])
@@ -57,10 +57,8 @@ class ManutencaosTable extends Table
             'foreignKey' => 'fornecedor_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ManuPecas', [
+        $this->hasMany('ManutencaoItems', [
             'foreignKey' => 'manutencao_id',
-            'dependent' => true,
-            'cascadeCallbacks' => true,
         ]);
     }
 
@@ -87,15 +85,6 @@ class ManutencaosTable extends Table
             ->decimal('valor')
             ->requirePresence('valor', 'create')
             ->notEmptyString('valor');
-
-        $validator
-            ->integer('notaFiscal')
-            ->allowEmptyString('notaFiscal');
-
-        $validator
-            ->integer('quilometragem')
-            ->requirePresence('quilometragem', 'create')
-            ->notEmptyString('quilometragem');
 
         $validator
             ->scalar('ativo')

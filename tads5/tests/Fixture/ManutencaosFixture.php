@@ -20,12 +20,12 @@ class ManutencaosFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'data' => '2025-04-22',
+                'descricao' => 'Lorem ipsum dolor sit amet',
+                'data' => '2025-07-20',
                 'valor' => 1.5,
-                'notaFiscal' => 1,
                 'ativo' => 'L',
-                'created' => '2025-04-22 21:47:57',
-                'modified' => '2025-04-22 21:47:57',
+                'created' => '2025-07-20 19:20:24',
+                'modified' => '2025-07-20 19:20:24',
                 'veiculo_id' => 1,
                 'fornecedor_id' => 1,
             ],

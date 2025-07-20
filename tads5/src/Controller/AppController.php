@@ -38,14 +38,18 @@ class AppController extends Controller
 {
     protected \Cake\ORM\Table $Users;
     protected \Cake\ORM\Table $Autenticacaos;
-    protected \Cake\ORM\Table $Servicos;
+    protected \Cake\ORM\Table $TipoServicos;
     protected \Cake\ORM\Table $Fornecedors;
+    protected \Cake\ORM\Table $CategoriaPecas;
+    protected \Cake\ORM\Table $MarcaPecas;
     protected \Cake\ORM\Table $Pecas;
+    protected \Cake\ORM\Table $TipoVeiculos;
     protected \Cake\ORM\Table $Fabricantes;
-    protected \Cake\ORM\Table $Tipos;
     protected \Cake\ORM\Table $Veiculos;
+    protected \Cake\ORM\Table $Metricas;
+    protected \Cake\ORM\Table $FrequenciaManutencaos;
     protected \Cake\ORM\Table $Manutencaos;
-    protected \Cake\ORM\Table $Manupecas;
+    protected \Cake\ORM\Table $ManutencaoItems;
 
     protected string $chaveMensagem = 'mensagem';
     protected string $chaveErros = 'erros';
@@ -55,10 +59,10 @@ class AppController extends Controller
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
-        $acao = $this->request->getParam('action');
-        $controlador = $this->request->getParam('controller');
+        $parametros = $this->request->getAttributes()['params'];
+        $acao = $parametros['controller'] . '/' . $parametros['action'];
 
-        if (($controlador !== 'User' && ($acao !== 'login' && $acao !== 'add')) && !$this->possuiTokenValido()) {
+        if ($acao !== 'Users/login' && $acao !== 'Users/add' && !$this->possuiTokenValido()) {
             throw new UnauthorizedException('Não autorizado.');
         }
 
@@ -79,7 +83,7 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent("Flash");
+        $this->loadComponent('Flash');
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.
@@ -87,41 +91,47 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
 
-        $this->Users = TableRegistry::getTableLocator()->get("Users");
-        $this->Autenticacaos = TableRegistry::getTableLocator()->get("Autenticacaos");
-        $this->Servicos = TableRegistry::getTableLocator()->get("Servicos");
-        $this->Fornecedors = TableRegistry::getTableLocator()->get("Fornecedors");
-        $this->Pecas = TableRegistry::getTableLocator()->get("Pecas");
-        $this->Fabricantes = TableRegistry::getTableLocator()->get("Fabricantes");
-        $this->Tipos = TableRegistry::getTableLocator()->get("Tipos");
-        $this->Veiculos = TableRegistry::getTableLocator()->get("Veiculos");
-        $this->Manutencaos = TableRegistry::getTableLocator()->get("Manutencaos");
-        $this->Manupecas = TableRegistry::getTableLocator()->get("ManuPecas");
+        $locator = TableRegistry::getTableLocator();
 
-        $GLOBALS["connection"] = ConnectionManager::get("default");
+        $this->Users = $locator->get('Users');
+        $this->Autenticacaos = $locator->get('Autenticacaos');
+        $this->TipoServicos = $locator->get('TipoServicos');
+        $this->Fornecedors = $locator->get('Fornecedors');
+        $this->CategoriaPecas = $locator->get('CategoriaPecas');
+        $this->MarcaPecas = $locator->get('MarcaPecas');
+        $this->Pecas = $locator->get('Pecas');
+        $this->TipoVeiculos = $locator->get('TipoVeiculos');
+        $this->Fabricantes = $locator->get('Fabricantes');
+        $this->Veiculos = $locator->get('Veiculos');
+        $this->Metricas = $locator->get('Metricas');
+        $this->FrequenciaManutencaos = $locator->get('FrequenciaManutencaos');
+        $this->Manutencaos = $locator->get('Manutencaos');
+        $this->ManutencaoItems = $locator->get('ManutencaoItems');
+
+        $GLOBALS['connection'] = ConnectionManager::get('default');
     }
 
     protected function possuiTokenValido(): bool
     {
-        if (empty($this->request->getHeader("Authentication")[0])) {
+        if (empty($this->request->getHeader('Authentication')[0])) {
             return false;
         }
 
-        $token = $this->request->getHeader("Authentication")[0];
-        $dataAtual = date("Y-m-d");
+        $token = $this->request->getHeader('Authentication')[0];
+        $dataAtual = date('Y-m-d');
 
         $autenticacao = $this->Autenticacaos->find()
-            ->select(["id"])
+            ->select(['id'])
             ->where([
-                "AUTENTICACAO" => $token,
-                "EXPIRACAO > " => $dataAtual,
+                'AUTENTICACAO' => $token,
+                'EXPIRACAO > ' => $dataAtual,
             ])
             ->first();
 
         return !empty($autenticacao);
     }
 
-    protected function enviarEmail($destinatario, $mensagem, $assunto = "TADS5", $copia = null): void
+    protected function enviarEmail($destinatario, $mensagem, $assunto = 'TADS5', $copia = null): void
     {
         $mailer = new Mailer('default');
 

@@ -24,9 +24,9 @@ class VeiculosFixture extends TestFixture
                 'ano' => 1,
                 'placa' => 'Lorem ',
                 'ativo' => 'L',
-                'created' => '2025-04-22 21:18:37',
-                'modified' => '2025-04-22 21:18:37',
-                'tipo_id' => 1,
+                'created' => '2025-07-20 19:20:13',
+                'modified' => '2025-07-20 19:20:13',
+                'tipo_veiculo_id' => 1,
                 'fabricante_id' => 1,
             ],
         ];

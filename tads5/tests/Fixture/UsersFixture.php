@@ -24,11 +24,11 @@ class UsersFixture extends TestFixture
                 'cpf' => 'Lorem ipsum ',
                 'password' => 'Lorem ipsum dolor sit amet',
                 'celular' => 'Lorem ipsum d',
-                'dtNasc' => '2025-04-08',
+                'dtNasc' => '2025-07-20',
                 'email' => 'Lorem ipsum dolor sit amet',
                 'ativo' => 'L',
-                'created' => '2025-04-08 22:04:45',
-                'modified' => '2025-04-08 22:04:45',
+                'created' => '2025-07-20 19:19:43',
+                'modified' => '2025-07-20 19:19:43',
             ],
         ];
         parent::init();

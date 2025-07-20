@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateManuPecas extends BaseMigration
+class CreateMarcaPecas extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,12 @@ class CreateManuPecas extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('manu_pecas');
+        $table = $this->table('marca_pecas');
+        $table->addColumn('nome', 'string', [
+            'default' => null,
+            'limit' => 180,
+            'null' => false,
+        ]);
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,
@@ -26,16 +31,6 @@ class CreateManuPecas extends BaseMigration
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('manutencao_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
-            'null' => false,
-        ]);
-        $table->addColumn('peca_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
             'null' => false,
         ]);
         $table->create();

@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Tipo Entity
+ * TipoServico Entity
  *
  * @property int $id
  * @property string $tipo
@@ -14,9 +14,9 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
  *
- * @property \App\Model\Entity\Veiculo[] $veiculos
+ * @property \App\Model\Entity\Fornecedor[] $fornecedors
  */
-class Tipo extends Entity
+class TipoServico extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -32,6 +32,6 @@ class Tipo extends Entity
         'ativo' => true,
         'created' => true,
         'modified' => true,
-        'veiculos' => true,
+        'fornecedors' => true,
     ];
 }

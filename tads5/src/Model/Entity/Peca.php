@@ -11,15 +11,19 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $nome
  * @property string $valor
- * @property int|null $garantia
- * @property int|null $notaFiscal
+ * @property int $garantia
+ * @property int $notaFiscal
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
+ * @property int|null $marca_peca_id
+ * @property int $categoria_peca_id
  * @property int $fornecedor_id
  *
+ * @property \App\Model\Entity\MarcaPeca $marca_peca
+ * @property \App\Model\Entity\CategoriaPeca $categoria_peca
  * @property \App\Model\Entity\Fornecedor $fornecedor
- * @property \App\Model\Entity\ManuPeca[] $manu_pecas
+ * @property \App\Model\Entity\ManutencaoItem[] $manutencao_items
  */
 class Peca extends Entity
 {
@@ -40,8 +44,12 @@ class Peca extends Entity
         'ativo' => true,
         'created' => true,
         'modified' => true,
+        'marca_peca_id' => true,
+        'categoria_peca_id' => true,
         'fornecedor_id' => true,
+        'marca_peca' => true,
+        'categoria_peca' => true,
         'fornecedor' => true,
-        'manu_pecas' => true,
+        'manutencao_items' => true,
     ];
 }

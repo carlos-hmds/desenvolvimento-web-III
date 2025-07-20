@@ -6,17 +6,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Servico Entity
+ * TipoVeiculo Entity
  *
  * @property int $id
- * @property string $tipo
+ * @property string $descricao
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
  *
- * @property \App\Model\Entity\Fornecedor[] $fornecedors
+ * @property \App\Model\Entity\FrequenciaManutencao[] $frequencia_manutencaos
+ * @property \App\Model\Entity\Veiculo[] $veiculos
  */
-class Servico extends Entity
+class TipoVeiculo extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,10 +29,11 @@ class Servico extends Entity
      * @var array<string, bool>
      */
     protected array $_accessible = [
-        'tipo' => true,
+        'descricao' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,
-        'fornecedors' => true,
+        'frequencia_manutencaos' => true,
+        'veiculos' => true,
     ];
 }

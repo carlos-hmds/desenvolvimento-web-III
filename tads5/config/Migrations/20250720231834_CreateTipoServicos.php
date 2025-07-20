@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateServicos extends BaseMigration
+class CreateTipoServicos extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,7 +14,7 @@ class CreateServicos extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('servicos');
+        $table = $this->table('tipo_servicos');
         $table->addColumn('tipo', 'string', [
             'default' => null,
             'limit' => 120,

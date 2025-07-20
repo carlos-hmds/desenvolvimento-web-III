@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * ManuPeca Entity
+ * ManutencaoItem Entity
  *
  * @property int $id
  * @property string $ativo
@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Manutencao $manutencao
  * @property \App\Model\Entity\Peca $peca
  */
-class ManuPeca extends Entity
+class ManutencaoItem extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

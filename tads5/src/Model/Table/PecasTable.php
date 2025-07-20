@@ -11,8 +11,10 @@ use Cake\Validation\Validator;
 /**
  * Pecas Model
  *
+ * @property \App\Model\Table\MarcaPecasTable&\Cake\ORM\Association\BelongsTo $MarcaPecas
+ * @property \App\Model\Table\CategoriaPecasTable&\Cake\ORM\Association\BelongsTo $CategoriaPecas
  * @property \App\Model\Table\FornecedorsTable&\Cake\ORM\Association\BelongsTo $Fornecedors
- * @property \App\Model\Table\ManuPecasTable&\Cake\ORM\Association\HasMany $ManuPecas
+ * @property \App\Model\Table\ManutencaoItemsTable&\Cake\ORM\Association\HasMany $ManutencaoItems
  *
  * @method \App\Model\Entity\Peca newEmptyEntity()
  * @method \App\Model\Entity\Peca newEntity(array $data, array $options = [])
@@ -48,11 +50,18 @@ class PecasTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('MarcaPecas', [
+            'foreignKey' => 'marca_peca_id',
+        ]);
+        $this->belongsTo('CategoriaPecas', [
+            'foreignKey' => 'categoria_peca_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Fornecedors', [
             'foreignKey' => 'fornecedor_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ManuPecas', [
+        $this->hasMany('ManutencaoItems', [
             'foreignKey' => 'peca_id',
         ]);
     }
@@ -78,16 +87,26 @@ class PecasTable extends Table
 
         $validator
             ->integer('garantia')
-            ->allowEmptyString('garantia');
+            ->requirePresence('garantia', 'create')
+            ->notEmptyString('garantia');
 
         $validator
             ->integer('notaFiscal')
-            ->allowEmptyString('notaFiscal');
+            ->requirePresence('notaFiscal', 'create')
+            ->notEmptyString('notaFiscal');
 
         $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');
+
+        $validator
+            ->integer('marca_peca_id')
+            ->allowEmptyString('marca_peca_id');
+
+        $validator
+            ->integer('categoria_peca_id')
+            ->notEmptyString('categoria_peca_id');
 
         $validator
             ->integer('fornecedor_id')
@@ -105,6 +124,8 @@ class PecasTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['marca_peca_id'], 'MarcaPecas'), ['errorField' => 'marca_peca_id']);
+        $rules->add($rules->existsIn(['categoria_peca_id'], 'CategoriaPecas'), ['errorField' => 'categoria_peca_id']);
         $rules->add($rules->existsIn(['fornecedor_id'], 'Fornecedors'), ['errorField' => 'fornecedor_id']);
 
         return $rules;

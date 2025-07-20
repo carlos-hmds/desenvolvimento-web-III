@@ -3,27 +3,21 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateFabricantes extends BaseMigration
+class CreateTipoVeiculos extends BaseMigration
 {
     /**
      * Change Method.
      *
      * More information on this method is available here:
      * https://book.cakephp.org/migrations/4/en/migrations.html#the-change-method
-     *
      * @return void
      */
     public function change(): void
     {
-        $table = $this->table('fabricantes');
-        $table->addColumn('nome', 'string', [
+        $table = $this->table('tipo_veiculos');
+        $table->addColumn('descricao', 'string', [
             'default' => null,
-            'limit' => 255,
-            'null' => false,
-        ]);
-        $table->addColumn('abreviado', 'string', [
-            'default' => null,
-            'limit' => 18,
+            'limit' => 100,
             'null' => false,
         ]);
         $table->addColumn('ativo', 'string', [

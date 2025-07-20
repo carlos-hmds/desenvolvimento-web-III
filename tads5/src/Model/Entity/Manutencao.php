@@ -12,8 +12,6 @@ use Cake\ORM\Entity;
  * @property string $descricao
  * @property \Cake\I18n\Date $data
  * @property string $valor
- * @property int|null $notaFiscal
- * @property int $quilometragem
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
@@ -22,7 +20,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Veiculo $veiculo
  * @property \App\Model\Entity\Fornecedor $fornecedor
- * @property \App\Model\Entity\ManuPeca[] $manu_pecas
+ * @property \App\Model\Entity\ManutencaoItem[] $manutencao_items
  */
 class Manutencao extends Entity
 {
@@ -39,8 +37,6 @@ class Manutencao extends Entity
         'descricao' => true,
         'data' => true,
         'valor' => true,
-        'notaFiscal' => true,
-        'quilometragem' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,
@@ -48,6 +44,6 @@ class Manutencao extends Entity
         'fornecedor_id' => true,
         'veiculo' => true,
         'fornecedor' => true,
-        'manu_pecas' => true,
+        'manutencao_items' => true,
     ];
 }

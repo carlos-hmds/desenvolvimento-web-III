@@ -67,12 +67,26 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/addManutencao', ['controller' => 'Adicionas', 'action' => 'addManutencao']);
         $builder->connect('/addManupeca', ['controller' => 'Adicionas', 'action' => 'addManupeca']);
 
+        // Usuários
+        $builder->connect('/users', ['controller' => 'Users', 'action' => 'index']);
+        $builder->connect('/users/view', ['controller' => 'Users', 'action' => 'view']);
+        $builder->connect('/users/add', ['controller' => 'Users', 'action' => 'add']);
+        $builder->connect('/users/edit', ['controller' => 'Users', 'action' => 'edit']);
+        $builder->connect('/users/delete', ['controller' => 'Users', 'action' => 'delete']);
+
         // Tipos de serviços
         $builder->connect('/tipos-servicos', ['controller' => 'TipoServicos', 'action' => 'index']);
         $builder->connect('/tipos-servicos/view', ['controller' => 'TipoServicos', 'action' => 'view']);
         $builder->connect('/tipos-servicos/add', ['controller' => 'TipoServicos', 'action' => 'add']);
         $builder->connect('/tipos-servicos/edit', ['controller' => 'TipoServicos', 'action' => 'edit']);
         $builder->connect('/tipos-servicos/delete', ['controller' => 'TipoServicos', 'action' => 'delete']);
+
+        // Fornecedores
+        $builder->connect('/fornecedores', ['controller' => 'Fornecedors', 'action' => 'index']);
+        $builder->connect('/fornecedores/view', ['controller' => 'Fornecedors', 'action' => 'view']);
+        $builder->connect('/fornecedores/add', ['controller' => 'Fornecedors', 'action' => 'add']);
+        $builder->connect('/fornecedores/edit', ['controller' => 'Fornecedors', 'action' => 'edit']);
+        $builder->connect('/fornecedores/delete', ['controller' => 'Fornecedors', 'action' => 'delete']);
 
         // Peças
         $builder->connect('/pecas', ['controller' => 'Pecas', 'action' => 'index']);
@@ -81,27 +95,55 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/pecas/edit', ['controller' => 'Pecas', 'action' => 'edit']);
         $builder->connect('/pecas/delete', ['controller' => 'Pecas', 'action' => 'delete']);
 
-        // Categorias de peças
+        // Categorias de peça
         $builder->connect('/pecas/categorias', ['controller' => 'CategoriaPecas', 'action' => 'index']);
         $builder->connect('/pecas/categorias/view', ['controller' => 'CategoriaPecas', 'action' => 'view']);
         $builder->connect('/pecas/categorias/add', ['controller' => 'CategoriaPecas', 'action' => 'add']);
         $builder->connect('/pecas/categorias/edit', ['controller' => 'CategoriaPecas', 'action' => 'edit']);
         $builder->connect('/pecas/categorias/delete', ['controller' => 'CategoriaPecas', 'action' => 'delete']);
 
-        // Marcas de peças
+        // Marcas de peça
         $builder->connect('/pecas/marcas', ['controller' => 'MarcaPecas', 'action' => 'index']);
         $builder->connect('/pecas/marcas/view', ['controller' => 'MarcaPecas', 'action' => 'view']);
         $builder->connect('/pecas/marcas/add', ['controller' => 'MarcaPecas', 'action' => 'add']);
         $builder->connect('/pecas/marcas/edit', ['controller' => 'MarcaPecas', 'action' => 'edit']);
         $builder->connect('/pecas/marcas/delete', ['controller' => 'MarcaPecas', 'action' => 'delete']);
 
-        // Usuários
-        $builder->connect('/users', ['controller' => 'Users', 'action' => 'index']);
-        $builder->connect('/users/view', ['controller' => 'Users', 'action' => 'view']);
-        $builder->connect('/users/add', ['controller' => 'Users', 'action' => 'add']);
-        $builder->connect('/users/edit', ['controller' => 'Users', 'action' => 'edit']);
-        $builder->connect('/users/delete', ['controller' => 'Users', 'action' => 'delete']);
+        // Veículos
+        $builder->connect('/veiculos', ['controller' => 'Veiculos', 'action' => 'index']);
+        $builder->connect('/veiculos/view', ['controller' => 'Veiculos', 'action' => 'view']);
+        $builder->connect('/veiculos/add', ['controller' => 'Veiculos', 'action' => 'add']);
+        $builder->connect('/veiculos/edit', ['controller' => 'Veiculos', 'action' => 'edit']);
+        $builder->connect('/veiculos/delete', ['controller' => 'Veiculos', 'action' => 'delete']);
 
+        // Tipos de veículo
+        $builder->connect('/veiculos/tipos', ['controller' => 'TipoVeiculos', 'action' => 'index']);
+        $builder->connect('/veiculos/tipos/view', ['controller' => 'TipoVeiculos', 'action' => 'view']);
+        $builder->connect('/veiculos/tipos/add', ['controller' => 'TipoVeiculos', 'action' => 'add']);
+        $builder->connect('/veiculos/tipos/edit', ['controller' => 'TipoVeiculos', 'action' => 'edit']);
+        $builder->connect('/veiculos/tipos/delete', ['controller' => 'TipoVeiculos', 'action' => 'delete']);
+
+        // Fabricantes
+        $builder->connect('/veiculos/fabricantes', ['controller' => 'Fabricantes', 'action' => 'index']);
+        $builder->connect('/veiculos/fabricantes/view', ['controller' => 'Fabricantes', 'action' => 'view']);
+        $builder->connect('/veiculos/fabricantes/add', ['controller' => 'Fabricantes', 'action' => 'add']);
+        $builder->connect('/veiculos/fabricantes/edit', ['controller' => 'Fabricantes', 'action' => 'edit']);
+        $builder->connect('/veiculos/fabricantes/delete', ['controller' => 'Fabricantes', 'action' => 'delete']);
+
+        // Métricas
+        $builder->connect('/metricas', ['controller' => 'Metricas', 'action' => 'index']);
+        $builder->connect('/metricas/view', ['controller' => 'Metricas', 'action' => 'view']);
+        $builder->connect('/metricas/add', ['controller' => 'Metricas', 'action' => 'add']);
+        $builder->connect('/metricas/edit', ['controller' => 'Metricas', 'action' => 'edit']);
+        $builder->connect('/metricas/delete', ['controller' => 'Metricas', 'action' => 'delete']);
+
+        // Lembretes de manutenção
+        $builder->connect('/lembretes-manutencao', ['controller' => 'LembreteMautencaos', 'action' => 'index']);
+        $builder->connect('/lembretes-manutencao/view', ['controller' => 'LembreteMautencaos', 'action' => 'view']);
+        $builder->connect('/lembretes-manutencao/add', ['controller' => 'LembreteMautencaos', 'action' => 'add']);
+        $builder->connect('/lembretes-manutencao/edit', ['controller' => 'LembreteMautencaos', 'action' => 'edit']);
+        $builder->connect('/lembretes-manutencao/delete', ['controller' => 'LembreteMautencaos', 'action' => 'delete']);
+        
         // Manutenções
         $builder->connect('/manutencoes', ['controller' => 'Manutencaos', 'action' => 'index']);
         $builder->connect('/manutencoes/view', ['controller' => 'Manutencaos', 'action' => 'view']);

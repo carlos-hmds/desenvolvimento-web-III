@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Migrations\BaseMigration;
 
-class CreateAutenticacaos extends BaseMigration
+class CreateMetricas extends BaseMigration
 {
     /**
      * Change Method.
@@ -14,19 +14,15 @@ class CreateAutenticacaos extends BaseMigration
      */
     public function change(): void
     {
-        $table = $this->table('autenticacaos');
-        $table->addColumn('autenticacao', 'string', [
+        $table = $this->table('metricas');
+        $table->addColumn('codigo', 'string', [
             'default' => null,
-            'limit' => 255,
+            'limit' => 24,
             'null' => false,
         ]);
-        $table->addColumn('expiracao', 'date', [
+        $table->addColumn('descricao', 'string', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('user_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
+            'limit' => 48,
             'null' => false,
         ]);
         $table->addColumn('ativo', 'string', [
@@ -41,6 +37,13 @@ class CreateAutenticacaos extends BaseMigration
         $table->addColumn('modified', 'datetime', [
             'default' => null,
             'null' => false,
+        ]);
+        $table->addIndex([
+            'codigo',
+
+            ], [
+            'name' => 'UNIQUE_CODIGO',
+            'unique' => true,
         ]);
         $table->create();
     }

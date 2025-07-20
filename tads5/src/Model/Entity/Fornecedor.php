@@ -14,18 +14,18 @@ use Cake\ORM\Entity;
  * @property string $telefone
  * @property string $email
  * @property string $logradouro
- * @property string|null $numero
- * @property string|null $bairro
- * @property string|null $complemento
+ * @property string $numero
+ * @property string $bairro
+ * @property string $complemento
  * @property string $cidade
  * @property string $estado
  * @property string $cep
  * @property string $ativo
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
- * @property int $servico_id
+ * @property int $tipo_servico_id
  *
- * @property \App\Model\Entity\Servico $servico
+ * @property \App\Model\Entity\TipoServico $tipo_servico
  * @property \App\Model\Entity\Manutencao[] $manutencaos
  * @property \App\Model\Entity\Peca[] $pecas
  */
@@ -55,8 +55,8 @@ class Fornecedor extends Entity
         'ativo' => true,
         'created' => true,
         'modified' => true,
-        'servico_id' => true,
-        'servico' => true,
+        'tipo_servico_id' => true,
+        'tipo_servico' => true,
         'manutencaos' => true,
         'pecas' => true,
     ];

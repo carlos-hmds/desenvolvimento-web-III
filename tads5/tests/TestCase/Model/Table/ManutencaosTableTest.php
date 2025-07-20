@@ -27,7 +27,7 @@ class ManutencaosTableTest extends TestCase
         'app.Manutencaos',
         'app.Veiculos',
         'app.Fornecedors',
-        'app.ManuPecas',
+        'app.ManutencaoItems',
     ];
 
     /**
