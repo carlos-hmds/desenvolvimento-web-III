@@ -1,0 +1,30 @@
+Prova 27/05/2025 - Desenvolvimento para web III
+
+<<< 0-8 pontos >>>
+Instalar em uma máquina virtual própria (VirtualBox):
+- Debian 12 (sem GUI)
+- apache2 (+ extensão)
+	> Habilitar módulo rewrite
+- php8.3 (+ todas as extensões)
+- mariadb (+ extensão)
+	> Habilitar o acesso externo (que será feito com o IP do servidor e porta 3306)
+- git (para clonar o repositório com git clone)
+
+<<< 0-2 >>>
+Configurar servidor do tads5;
+Copiar do projeto do Windows para o Linux manualmente:
+- env
+
+
+
+
+
+
+
+
+
+
+
+
+
+

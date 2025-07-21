@@ -25,7 +25,6 @@ class FrequenciaManutencaosTableTest extends TestCase
      */
     protected array $fixtures = [
         'app.FrequenciaManutencaos',
-        'app.Metricas',
         'app.TipoVeiculos',
         'app.CategoriaPecas',
     ];

@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
 /**
  * FrequenciaManutencaos Model
  *
- * @property \App\Model\Table\MetricasTable&\Cake\ORM\Association\BelongsTo $Metricas
  * @property \App\Model\Table\TipoVeiculosTable&\Cake\ORM\Association\BelongsTo $TipoVeiculos
  * @property \App\Model\Table\CategoriaPecasTable&\Cake\ORM\Association\BelongsTo $CategoriaPecas
  *
@@ -44,15 +43,11 @@ class FrequenciaManutencaosTable extends Table
         parent::initialize($config);
 
         $this->setTable('frequencia_manutencaos');
-        $this->setDisplayField('ativo');
+        $this->setDisplayField('tipo_metrica');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Metricas', [
-            'foreignKey' => 'metrica_id',
-            'joinType' => 'INNER',
-        ]);
         $this->belongsTo('TipoVeiculos', [
             'foreignKey' => 'tipo_veiculo_id',
             'joinType' => 'INNER',
@@ -72,6 +67,11 @@ class FrequenciaManutencaosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('tipo_metrica')
+            ->maxLength('tipo_metrica', 20)
+            ->notEmptyString('tipo_metrica');
+
+        $validator
             ->integer('frequencia')
             ->requirePresence('frequencia', 'create')
             ->notEmptyString('frequencia');
@@ -80,10 +80,6 @@ class FrequenciaManutencaosTable extends Table
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');
-
-        $validator
-            ->integer('metrica_id')
-            ->notEmptyString('metrica_id');
 
         $validator
             ->integer('tipo_veiculo_id')
@@ -105,7 +101,6 @@ class FrequenciaManutencaosTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['metrica_id'], 'Metricas'), ['errorField' => 'metrica_id']);
         $rules->add($rules->existsIn(['tipo_veiculo_id'], 'TipoVeiculos'), ['errorField' => 'tipo_veiculo_id']);
         $rules->add($rules->existsIn(['categoria_peca_id'], 'CategoriaPecas'), ['errorField' => 'categoria_peca_id']);
 

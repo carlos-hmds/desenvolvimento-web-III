@@ -15,6 +15,11 @@ class CreateFrequenciaManutencaos extends BaseMigration
     public function change(): void
     {
         $table = $this->table('frequencia_manutencaos');
+        $table->addColumn('tipo_metrica', 'string', [
+            'default' => 'km',
+            'limit' => 20,
+            'null' => false,
+        ]);
         $table->addColumn('frequencia', 'integer', [
             'default' => null,
             'limit' => 11,
@@ -31,11 +36,6 @@ class CreateFrequenciaManutencaos extends BaseMigration
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('metrica_id', 'integer', [
-            'default' => null,
-            'limit' => 11,
             'null' => false,
         ]);
         $table->addColumn('tipo_veiculo_id', 'integer', [

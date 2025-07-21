@@ -130,26 +130,29 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/veiculos/fabricantes/edit', ['controller' => 'Fabricantes', 'action' => 'edit']);
         $builder->connect('/veiculos/fabricantes/delete', ['controller' => 'Fabricantes', 'action' => 'delete']);
 
-        // Métricas
-        $builder->connect('/metricas', ['controller' => 'Metricas', 'action' => 'index']);
-        $builder->connect('/metricas/view', ['controller' => 'Metricas', 'action' => 'view']);
-        $builder->connect('/metricas/add', ['controller' => 'Metricas', 'action' => 'add']);
-        $builder->connect('/metricas/edit', ['controller' => 'Metricas', 'action' => 'edit']);
-        $builder->connect('/metricas/delete', ['controller' => 'Metricas', 'action' => 'delete']);
-
-        // Lembretes de manutenção
-        $builder->connect('/lembretes-manutencao', ['controller' => 'LembreteMautencaos', 'action' => 'index']);
-        $builder->connect('/lembretes-manutencao/view', ['controller' => 'LembreteMautencaos', 'action' => 'view']);
-        $builder->connect('/lembretes-manutencao/add', ['controller' => 'LembreteMautencaos', 'action' => 'add']);
-        $builder->connect('/lembretes-manutencao/edit', ['controller' => 'LembreteMautencaos', 'action' => 'edit']);
-        $builder->connect('/lembretes-manutencao/delete', ['controller' => 'LembreteMautencaos', 'action' => 'delete']);
-        
         // Manutenções
         $builder->connect('/manutencoes', ['controller' => 'Manutencaos', 'action' => 'index']);
         $builder->connect('/manutencoes/view', ['controller' => 'Manutencaos', 'action' => 'view']);
         $builder->connect('/manutencoes/add', ['controller' => 'Manutencaos', 'action' => 'add']);
         $builder->connect('/manutencoes/edit', ['controller' => 'Manutencaos', 'action' => 'edit']);
         $builder->connect('/manutencoes/delete', ['controller' => 'Manutencaos', 'action' => 'delete']);
+
+        // Frequências de manutenção
+        $builder->connect('/manutencoes/frequencias/', ['controller' => 'FrequenciaManutencaos', 'action' => 'index']);
+        $builder->connect('/manutencoes/frequencias/view', ['controller' => 'FrequenciaManutencaos', 'action' => 'view']);
+        $builder->connect('/manutencoes/frequencias/add', ['controller' => 'FrequenciaManutencaos', 'action' => 'add']);
+        $builder->connect('/manutencoes/frequencias/edit', ['controller' => 'FrequenciaManutencaos', 'action' => 'edit']);
+        $builder->connect('/manutencoes/frequencias/delete', ['controller' => 'FrequenciaManutencaos', 'action' => 'delete']);
+
+        // Relatórios
+        $builder->connect('/pecas/relatorios/comparativo-categorias-marcas', [
+            'controller' => 'RelatorioPecasController',
+            'action' => 'comparativoCategoriasMarcas',
+        ]);
+        $builder->connect('/pecas/relatorios/comparativo-categorias-marcas', [
+            'controller' => 'RelatorioPecasController',
+            'action' => 'comparativoCategoriasMarcas',
+        ]);
 
         // Visualizações
         $builder->connect('/viewManutencao', ['controller' => 'Visualizacaos', 'action' => 'viewManutencao']);
