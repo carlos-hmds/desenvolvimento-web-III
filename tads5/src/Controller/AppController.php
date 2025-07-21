@@ -46,7 +46,6 @@ class AppController extends Controller
     protected \Cake\ORM\Table $TipoVeiculos;
     protected \Cake\ORM\Table $Fabricantes;
     protected \Cake\ORM\Table $Veiculos;
-    protected \Cake\ORM\Table $Metricas;
     protected \Cake\ORM\Table $FrequenciaManutencaos;
     protected \Cake\ORM\Table $Manutencaos;
     protected \Cake\ORM\Table $ItemManutencaos;
@@ -103,7 +102,6 @@ class AppController extends Controller
         $this->TipoVeiculos = $locator->get('TipoVeiculos');
         $this->Fabricantes = $locator->get('Fabricantes');
         $this->Veiculos = $locator->get('Veiculos');
-        $this->Metricas = $locator->get('Metricas');
         $this->FrequenciaManutencaos = $locator->get('FrequenciaManutencaos');
         $this->Manutencaos = $locator->get('Manutencaos');
         $this->ItemManutencaos = $locator->get('ItemManutencaos');
@@ -170,4 +168,19 @@ class AppController extends Controller
         $this->conteudoResposta[$this->chaveRetorno] = $dados;
         return $this->gerarResposta($codigo);
     }
+
+    // TODO: talvez criar uma função para distribuir os campos de um SELECT entre entidades no retorno
+    // Ex.:
+    /*
+        ['id' => 1, 'fornecedor_id' => 2]
+
+        para
+
+        [
+            'id' => 1,
+            'fornecedor' => [
+                'id' => 2
+            ]
+        ]
+    */
 }

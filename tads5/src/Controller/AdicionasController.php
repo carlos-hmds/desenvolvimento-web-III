@@ -63,15 +63,15 @@ class AdicionasController extends AppController
 
         if ($this->request->is("post"))
         {
-            $servico = $this->Servicos->newEmptyEntity();
+            $servico = $this->TipoServicos->newEmptyEntity();
             $dados = $this->request->getData();
 
-            $servico = $this->Servicos->patchEntity($servico, $dados);
+            $servico = $this->TipoServicos->patchEntity($servico, $dados);
 
             try
             {
-                $this->Servicos->saveOrFail($servico);
-                $response = "Serviço adicionado com sucesso.";
+                $this->TipoServicos->saveOrFail($servico);
+                $response = "Tipo de serviço adicionado com sucesso.";
             }
             catch (PersistenceFailedException $e)
             {
@@ -207,15 +207,15 @@ class AdicionasController extends AppController
 
         if ($this->request->is("post"))
         {
-            $tipo = $this->Tipos->newEmptyEntity();
+            $tipo = $this->TipoVeiculos->newEmptyEntity();
             $dados = $this->request->getData();
 
-            $tipo = $this->Tipos->patchEntity($tipo, $dados);
+            $tipo = $this->TipoVeiculos->patchEntity($tipo, $dados);
 
             try
             {
-                $this->Tipos->saveOrFail($tipo);
-                $response = "Tipo adicionado com sucesso.";
+                $this->TipoVeiculos->saveOrFail($tipo);
+                $response = "Tipo de veículo adicionado com sucesso.";
             }
             catch (PersistenceFailedException $e)
             {

@@ -83,7 +83,7 @@ class FornecedorsTable extends Table
 
         $validator
             ->scalar('telefone')
-            ->maxLength('telefone', 11)
+            ->maxLength('telefone', 16)
             ->requirePresence('telefone', 'create')
             ->notEmptyString('telefone');
 
@@ -112,9 +112,7 @@ class FornecedorsTable extends Table
 
         $validator
             ->scalar('complemento')
-            ->maxLength('complemento', 100)
-            ->requirePresence('complemento', 'create')
-            ->notEmptyString('complemento');
+            ->maxLength('complemento', 100);
 
         $validator
             ->scalar('cidade')

@@ -69,7 +69,7 @@ class PecasController extends AppController
         $id = $this->request->getData('id');
 
         if (!$id) {
-            return $this->erro('Informe o código da manutenção.');
+            return $this->erro('Informe o código da peça.');
         }
 
         $busca = $this->Pecas
