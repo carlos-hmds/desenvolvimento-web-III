@@ -28,7 +28,7 @@ class PecasTableTest extends TestCase
         'app.MarcaPecas',
         'app.CategoriaPecas',
         'app.Fornecedors',
-        'app.ManutencaoItems',
+        'app.ItemManutencaos',
     ];
 
     /**

@@ -18,7 +18,7 @@ class PecasController extends AppController
                 'nome' => 'Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
-                'notaFiscal' => 'Pecas.notaFiscal',
+                'nota_fiscal' => 'Pecas.nota_fiscal',
                 'ativo' => 'Pecas.ativo',
                 'fornecedor_id' => 'Pecas.fornecedor_id',
                 'fornecedor_nome' => 'Fornecedors.nome',
@@ -41,7 +41,7 @@ class PecasController extends AppController
                     'nome' => $registro['nome'],
                     'valor' => $registro['valor'],
                     'garantia' => $registro['garantia'],
-                    'notaFiscal' => $registro['notaFiscal'],
+                    'nota_fiscal' => $registro['nota_fiscal'],
                     'ativo' => $registro['ativo'],
                 ];
 
@@ -79,7 +79,7 @@ class PecasController extends AppController
                 'nome' => 'Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
-                'notaFiscal' => 'Pecas.notaFiscal',
+                'nota_fiscal' => 'Pecas.nota_fiscal',
                 'ativo' => 'Pecas.ativo',
                 'fornecedor_id' => 'Pecas.fornecedor_id',
                 'fornecedor_nome' => 'Fornecedors.nome',
@@ -103,7 +103,7 @@ class PecasController extends AppController
                 'nome' => $resultado['nome'],
                 'valor' => $resultado['valor'],
                 'garantia' => $resultado['garantia'],
-                'notaFiscal' => $resultado['notaFiscal'],
+                'nota_fiscal' => $resultado['nota_fiscal'],
                 'ativo' => $resultado['ativo'],
             ];
 

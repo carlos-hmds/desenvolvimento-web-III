@@ -74,19 +74,29 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/users/edit', ['controller' => 'Users', 'action' => 'edit']);
         $builder->connect('/users/delete', ['controller' => 'Users', 'action' => 'delete']);
 
-        // Tipos de serviços
-        $builder->connect('/tipos-servicos', ['controller' => 'TipoServicos', 'action' => 'index']);
-        $builder->connect('/tipos-servicos/view', ['controller' => 'TipoServicos', 'action' => 'view']);
-        $builder->connect('/tipos-servicos/add', ['controller' => 'TipoServicos', 'action' => 'add']);
-        $builder->connect('/tipos-servicos/edit', ['controller' => 'TipoServicos', 'action' => 'edit']);
-        $builder->connect('/tipos-servicos/delete', ['controller' => 'TipoServicos', 'action' => 'delete']);
-
         // Fornecedores
         $builder->connect('/fornecedores', ['controller' => 'Fornecedors', 'action' => 'index']);
         $builder->connect('/fornecedores/view', ['controller' => 'Fornecedors', 'action' => 'view']);
         $builder->connect('/fornecedores/add', ['controller' => 'Fornecedors', 'action' => 'add']);
         $builder->connect('/fornecedores/edit', ['controller' => 'Fornecedors', 'action' => 'edit']);
         $builder->connect('/fornecedores/delete', ['controller' => 'Fornecedors', 'action' => 'delete']);
+
+        // Tipos de serviços
+        $builder->connect('/fornecedores/servicos', [
+            'controller' => 'TipoServicos', 'action' => 'index'
+        ]);
+        $builder->connect('/fornecedores/servicos/view', [
+            'controller' => 'TipoServicos', 'action' => 'view'
+        ]);
+        $builder->connect('/fornecedores/servicos/add', [
+            'controller' => 'TipoServicos', 'action' => 'add'
+        ]);
+        $builder->connect('/fornecedores/servicos/edit', [
+            'controller' => 'TipoServicos', 'action' => 'edit'
+        ]);
+        $builder->connect('/fornecedores/servicos/delete', [
+            'controller' => 'TipoServicos', 'action' => 'delete'
+        ]);
 
         // Peças
         $builder->connect('/pecas', ['controller' => 'Pecas', 'action' => 'index']);

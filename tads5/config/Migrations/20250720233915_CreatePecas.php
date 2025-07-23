@@ -31,7 +31,7 @@ class CreatePecas extends BaseMigration
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('notaFiscal', 'integer', [
+        $table->addColumn('nota_fiscal', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,

@@ -23,9 +23,7 @@ class ManutencaosController extends AppController
 
     public function index(): Response
     {
-        if (!$this->request->is('post')) {
-            return $this->erro(400, 'Requisição não suportada.');
-        }
+        $this->request->allowMethod('post');
 
         $dados = $this->request->getData();
         $query = $this->Manutencaos
@@ -38,7 +36,7 @@ class ManutencaosController extends AppController
                 'modelo_veiculo' => 'Veiculos.modelo',
                 'placa_veiculo' => 'Veiculos.placa',
                 'nome_abreviado_fabricante' => 'Fabricantes.abreviado',
-                'nota_fiscal' => 'Manutencaos.notaFiscal',
+                'nota_fiscal' => 'Manutencaos.nota_fiscal',
                 'valor_manutencao' => 'Manutencaos.valor',
                 'data_manutencao' => 'Manutencaos.data',
                 'quantidade_pecas' => 'COUNT(*)',
@@ -64,8 +62,9 @@ class ManutencaosController extends AppController
                 'conditions' => 'Item_Manutencaos.manutencao_id = Manutencaos.id',
             ])
             ->groupBy([
-                'Manutencaos.id', 'Fornecedors.cnpj', 'Fornecedors.nome', 'Fornecedors.telefone', 'Veiculos.modelo', 'Veiculos.placa',
-                'Fabricantes.abreviado', 'Manutencaos.notaFiscal', 'Manutencaos.valor', 'Manutencaos.data',
+                'Manutencaos.id', 'Fornecedors.cnpj', 'Fornecedors.nome', 'Fornecedors.telefone', 'Veiculos.modelo',
+                'Veiculos.placa',  'Fabricantes.abreviado', 'Manutencaos.nota_fiscal', 'Manutencaos.valor',
+                'Manutencaos.data',
             ]);
 
         try {
@@ -86,6 +85,8 @@ class ManutencaosController extends AppController
 
     public function view(): Response
     {
+        $this->request->allowMethod('post');
+
         $id = $this->request->getData('id');
 
         if (!$id) {
@@ -106,9 +107,7 @@ class ManutencaosController extends AppController
 
     public function add(): Response
     {
-        if (!$this->request->is('post')) {
-            return $this->erro('Requisição inválida.');
-        }
+        $this->request->allowMethod('post');
 
         $dados = $this->request->getData();
 
@@ -142,9 +141,7 @@ class ManutencaosController extends AppController
 
     public function edit(): Response
     {
-        if (!$this->request->is('post')) {
-            return $this->erro('Requisição inválida.');
-        }
+        $this->request->allowMethod('post');
 
         $dados = $this->request->getData();
 

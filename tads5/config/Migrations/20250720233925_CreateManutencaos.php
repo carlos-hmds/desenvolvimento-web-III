@@ -30,6 +30,11 @@ class CreateManutencaos extends BaseMigration
             'precision' => 10,
             'scale' => 2,
         ]);
+        $table->addColumn('nota_fiscal', 'integer', [
+            'default' => null,
+            'limit' => 11,
+            'null' => false,
+        ]);
         $table->addColumn('ativo', 'string', [
             'default' => 'S',
             'limit' => 1,
