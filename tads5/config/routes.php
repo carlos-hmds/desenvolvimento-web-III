@@ -73,6 +73,8 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/users/add', ['controller' => 'Users', 'action' => 'add']);
         $builder->connect('/users/edit', ['controller' => 'Users', 'action' => 'edit']);
         $builder->connect('/users/delete', ['controller' => 'Users', 'action' => 'delete']);
+        $builder->connect('/users/login', ['controller' => 'Users', 'action' => 'login']);
+        $builder->connect('/users/logout', ['controller' => 'Users', 'action' => 'logout']);
 
         // Fornecedores
         $builder->connect('/fornecedores', ['controller' => 'Fornecedors', 'action' => 'index']);

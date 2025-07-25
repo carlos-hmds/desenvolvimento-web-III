@@ -67,7 +67,7 @@ class TipoServicosController extends AppController
 
         try {
             $tipoServico = $this->TipoServicos->saveOrFail($tipoServico);
-            return $this->sucesso('Tipo de serviço incluído com sucesso.', [
+            return $this->sucesso('Tipo de serviço incluído com sucesso. Código: ' . $tipoServico['id'] . ".", [
                 'id' => $tipoServico['id']
             ]);
         }
@@ -123,8 +123,8 @@ class TipoServicosController extends AppController
         }
 
         try {
-            $peca = $this->Pecas->get($id);
-            $this->Pecas->deleteOrFail($peca);
+            $tipoServico = $this->TipoServicos->get($id);
+            $this->TipoServicos->deleteOrFail($tipoServico);
             return $this->sucesso('Tipo de serviço excluído com sucesso.');
         }
         catch (RecordNotFoundException) {

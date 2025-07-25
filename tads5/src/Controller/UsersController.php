@@ -162,7 +162,6 @@ class UsersController extends AppController
         $result = $this->Authentication->getResult();
 
         if (!$result || !$result->isValid()) {
-            debug($result);
             return $this->erro('E-mail ou senha inválidos.');
         }
 
