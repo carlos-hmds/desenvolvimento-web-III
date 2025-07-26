@@ -16,12 +16,26 @@ class PecasController extends AppController
             ->select([
                 'id' => 'Pecas.id',
                 'nome' => 'Pecas.nome',
+                'categoria_id' => 'Pecas.categoria_peca_id',
+                'categoria_nome' => 'Categoria_Pecas.nome',
+                'marca_id' => 'Pecas.marca_peca_id',
+                'marca_nome' => 'Marca_Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
                 'nota_fiscal' => 'Pecas.nota_fiscal',
                 'ativo' => 'Pecas.ativo',
                 'fornecedor_id' => 'Pecas.fornecedor_id',
                 'fornecedor_nome' => 'Fornecedors.nome',
+            ])
+            ->join([
+                'table' => 'Categoria_Pecas',
+                'type' => 'INNER',
+                'conditions' => 'Categoria_Pecas.id = Pecas.categoria_peca_id',
+            ])
+            ->join([
+                'table' => 'Marca_Pecas',
+                'type' => 'INNER',
+                'conditions' => 'Marca_Pecas.id = Pecas.marca_peca_id',
             ])
             ->join([
                 'table' => 'Fornecedors',
@@ -43,6 +57,16 @@ class PecasController extends AppController
                     'garantia' => $registro['garantia'],
                     'nota_fiscal' => $registro['nota_fiscal'],
                     'ativo' => $registro['ativo'],
+                ];
+
+                $peca['categoria'] = [
+                    'id' => $registro['categoria_id'],
+                    'nome' => $registro['categoria_nome'],
+                ];
+
+                $peca['marca'] = [
+                    'id' => $registro['marca_id'],
+                    'nome' => $registro['marca_nome'],
                 ];
 
                 $peca['fornecedor'] = [
@@ -77,12 +101,26 @@ class PecasController extends AppController
             ->select([
                 'id' => 'Pecas.id',
                 'nome' => 'Pecas.nome',
+                'categoria_id' => 'Pecas.categoria_peca_id',
+                'categoria_nome' => 'Categoria_Pecas.nome',
+                'marca_id' => 'Pecas.marca_peca_id',
+                'marca_nome' => 'Marca_Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
                 'nota_fiscal' => 'Pecas.nota_fiscal',
                 'ativo' => 'Pecas.ativo',
                 'fornecedor_id' => 'Pecas.fornecedor_id',
                 'fornecedor_nome' => 'Fornecedors.nome',
+            ])
+            ->join([
+                'table' => 'Categoria_Pecas',
+                'type' => 'INNER',
+                'conditions' => 'Categoria_Pecas.id = Pecas.categoria_peca_id',
+            ])
+            ->join([
+                'table' => 'Marca_Pecas',
+                'type' => 'INNER',
+                'conditions' => 'Marca_Pecas.id = Pecas.marca_peca_id',
             ])
             ->join([
                 'table' => 'Fornecedors',
@@ -105,6 +143,16 @@ class PecasController extends AppController
                 'garantia' => $resultado['garantia'],
                 'nota_fiscal' => $resultado['nota_fiscal'],
                 'ativo' => $resultado['ativo'],
+            ];
+
+            $peca['categoria'] = [
+                'id' => $resultado['categoria_id'],
+                'nome' => $resultado['categoria_nome'],
+            ];
+
+            $peca['marca'] = [
+                'id' => $resultado['marca_id'],
+                'nome' => $resultado['marca_nome'],
             ];
 
             $peca['fornecedor'] = [
