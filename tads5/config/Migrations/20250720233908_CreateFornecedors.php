@@ -27,7 +27,7 @@ class CreateFornecedors extends BaseMigration
         ]);
         $table->addColumn('telefone', 'string', [
             'default' => null,
-            'limit' => 11,
+            'limit' => 16,
             'null' => false,
         ]);
         $table->addColumn('email', 'string', [
