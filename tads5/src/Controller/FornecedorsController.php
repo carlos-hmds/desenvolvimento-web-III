@@ -191,8 +191,8 @@ class FornecedorsController extends AppController
         }
 
         try {
-            $marcaPeca = $this->Fornecedors->get($id);
-            $this->Fornecedors->deleteOrFail($marcaPeca);
+            $fornecedor = $this->Fornecedors->get($id);
+            $this->Fornecedors->deleteOrFail($fornecedor);
             return $this->sucesso('Fornecedor removido com sucesso.');
         }
         catch (RecordNotFoundException) {
