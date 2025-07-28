@@ -90,7 +90,7 @@ class TipoServicosController extends AppController
         }
 
         if (empty($dados['id'])) {
-            return $this->erro('Informe o código do tipo serviço a ser alterado.');
+            return $this->erro('Informe o código do tipo de serviço a ser alterado.');
         }
 
         $id = $dados['id'];
