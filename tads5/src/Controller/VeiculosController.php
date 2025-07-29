@@ -63,9 +63,7 @@ class VeiculosController extends AppController
                 'placa' => 'Veiculos.placa',
                 'ativo' => 'Veiculos.ativo',
                 'tipo_veiculo_id' => 'Tipo_Veiculos.id',
-                'tipo_veiculo_descricao' => 'Tipo_Veiculos.descricao',
                 'fabricante_id' => 'Fabricantes.id',
-                'fabricante_abreviado' => 'Fabricantes.abreviado',
             ])
             ->join([
                 'type' => 'INNER',
@@ -86,25 +84,7 @@ class VeiculosController extends AppController
                 return $this->erro('Veículo com código ' . $id . ' não encontrado.');
             }
 
-            $veiculo = [
-                'id' => $resultado['id'],
-                'modelo' => $resultado['modelo'],
-                'ano' => $resultado['ano'],
-                'placa' => $resultado['placa'],
-                'ativo' => $resultado['ativo'],
-            ];
-
-            $veiculo['tipo_veiculo'] = [
-                'id' => $resultado['tipo_veiculo_id'],
-                'descricao' => $resultado['descricao'],
-            ];
-
-            $veiculo['fabricante'] = [
-                'id' => $resultado['fabricante_id'],
-                'abreviado' => $resultado['fabricante_abreviado'],
-            ];
-
-            return $this->sucesso('Veículo encontrado.', $veiculo);
+            return $this->sucesso('Veículo encontrado.', $resultado);
         }
         catch (Exception $e) {
             return $this->erro('Houve um erro ao verificar o veículo: ' . $e->getMessage());
