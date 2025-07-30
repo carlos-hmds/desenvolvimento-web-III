@@ -16,15 +16,12 @@ class PecasController extends AppController
             ->select([
                 'id' => 'Pecas.id',
                 'nome' => 'Pecas.nome',
-                'categoria_id' => 'Pecas.categoria_peca_id',
                 'categoria_nome' => 'Categoria_Pecas.nome',
-                'marca_id' => 'Pecas.marca_peca_id',
                 'marca_nome' => 'Marca_Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
                 'nota_fiscal' => 'Pecas.nota_fiscal',
                 'ativo' => 'Pecas.ativo',
-                'fornecedor_id' => 'Pecas.fornecedor_id',
                 'fornecedor_nome' => 'Fornecedors.nome',
             ])
             ->join([
@@ -44,39 +41,7 @@ class PecasController extends AppController
             ]);
 
         try {
-            $resultado = $busca->toArray();
-            $pecas = [];
-
-            for ($i = 0; $i < sizeof($resultado); $i++) {
-                $registro = $resultado[$i];
-
-                $peca = [
-                    'id' => $registro['id'],
-                    'nome' => $registro['nome'],
-                    'valor' => $registro['valor'],
-                    'garantia' => $registro['garantia'],
-                    'nota_fiscal' => $registro['nota_fiscal'],
-                    'ativo' => $registro['ativo'],
-                ];
-
-                $peca['categoria'] = [
-                    'id' => $registro['categoria_id'],
-                    'nome' => $registro['categoria_nome'],
-                ];
-
-                $peca['marca'] = [
-                    'id' => $registro['marca_id'],
-                    'nome' => $registro['marca_nome'],
-                ];
-
-                $peca['fornecedor'] = [
-                    'id' => $registro['fornecedor_id'],
-                    'nome' => $registro['fornecedor_nome'],
-                ];
-
-                $pecas[$i] = $peca;
-            }
-
+            $pecas = $busca->toArray();
             return $this->sucesso('Peças listadas com sucesso.', $pecas);
         }
         catch (Exception $e) {
@@ -102,15 +67,12 @@ class PecasController extends AppController
                 'id' => 'Pecas.id',
                 'nome' => 'Pecas.nome',
                 'categoria_id' => 'Pecas.categoria_peca_id',
-                'categoria_nome' => 'Categoria_Pecas.nome',
                 'marca_id' => 'Pecas.marca_peca_id',
-                'marca_nome' => 'Marca_Pecas.nome',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
                 'nota_fiscal' => 'Pecas.nota_fiscal',
-                'ativo' => 'Pecas.ativo',
                 'fornecedor_id' => 'Pecas.fornecedor_id',
-                'fornecedor_nome' => 'Fornecedors.nome',
+                'ativo' => 'Pecas.ativo',
             ])
             ->join([
                 'table' => 'Categoria_Pecas',
@@ -130,35 +92,11 @@ class PecasController extends AppController
             ->where(['Pecas.id' => $id]);
 
         try {
-            $resultado = $busca->first();
+            $peca = $busca->first();
 
-            if (empty($resultado)) {
+            if (empty($peca)) {
                 return $this->erro('Peça com código ' . $id . ' não encontrada.');
             }
-
-            $peca = [
-                'id' => $resultado['id'],
-                'nome' => $resultado['nome'],
-                'valor' => $resultado['valor'],
-                'garantia' => $resultado['garantia'],
-                'nota_fiscal' => $resultado['nota_fiscal'],
-                'ativo' => $resultado['ativo'],
-            ];
-
-            $peca['categoria'] = [
-                'id' => $resultado['categoria_id'],
-                'nome' => $resultado['categoria_nome'],
-            ];
-
-            $peca['marca'] = [
-                'id' => $resultado['marca_id'],
-                'nome' => $resultado['marca_nome'],
-            ];
-
-            $peca['fornecedor'] = [
-                'id' => $resultado['fornecedor_id'],
-                'nome' => $resultado['fornecedor_nome'],
-            ];
 
             return $this->sucesso('Peça encontrada.', $peca);
         }
