@@ -19,7 +19,6 @@ class FornecedorsController extends AppController
                 'telefone' => 'Fornecedors.telefone',
                 'cidade' => 'Fornecedors.cidade',
                 'estado' => 'Fornecedors.estado',
-                'tipo_servico_id' => 'Fornecedors.tipo_servico_id',
                 'tipo_servico_nome' => 'Tipo_Servicos.tipo',
                 'ativo' => 'Fornecedors.ativo'
             ])
@@ -30,23 +29,7 @@ class FornecedorsController extends AppController
             ]);
 
         try {
-            $resultado = $busca->toArray();
-            $fornecedores = [];
-
-            for ($i = 0; $i < sizeof($resultado); $i++) {
-                $fornecedor['id'] = $resultado['id'];
-                $fornecedor['nome'] = $resultado['nome'];
-                $fornecedor['telefone'] = $resultado['telefone'];
-                $fornecedor['cidade'] = $resultado['cidade'];
-                $fornecedor['estado'] = $resultado['estado'];
-                $fornecedor['tipo_servico'] = [
-                    'id' => $resultado['tipo_servico_id'],
-                    'nome' => $resultado['tipo_servico_nome'],
-                ];
-                $fornecedor['ativo'] = $resultado['ativo'];
-
-                $fornecedores[$i] = $fornecedor;
-            }
+            $fornecedores = $busca->toArray();
 
             return $this->sucesso('Fornecedores listados com sucesso.', $fornecedores);
         }
@@ -80,43 +63,21 @@ class FornecedorsController extends AppController
                 'estado' => 'Fornecedors.estado',
                 'cep' => 'Fornecedors.cep',
                 'tipo_servico_id' => 'Fornecedors.tipo_servico_id',
-                'tipo_servico_nome' => 'Tipo_Servicos.tipo',
                 'ativo' => 'Fornecedors.ativo'
             ])
-            ->join([
-                'table' => 'Tipo_Servicos',
-                'type' => 'INNER',
-                'conditions' => 'Tipo_Servicos.id = Fornecedors.tipo_servico_id'
-            ]);
+            ->where(["id" => $id]);
 
         try {
-            $resultado = $busca->first();
+            $fornecedor = $busca->first();
 
-            if (empty($resultado)) {
+            if (empty($fornecedor)) {
                 return $this->erro('Fornecedor com código ' . $id . ' não localizado.');
             }
-
-            $fornecedor['id'] = $resultado['id'];
-            $fornecedor['nome'] = $resultado['nome'];
-            $fornecedor['telefone'] = $resultado['telefone'];
-            $fornecedor['email'] = $resultado['email'];
-            $fornecedor['logradouro'] = $resultado['logradouro'];
-            $fornecedor['numero'] = $resultado['numero'];
-            $fornecedor['bairro'] = $resultado['bairro'];
-            $fornecedor['complemento'] = $resultado['complemento'];
-            $fornecedor['cidade'] = $resultado['cidade'];
-            $fornecedor['estado'] = $resultado['estado'];
-            $fornecedor['cep'] = $resultado['cep'];
-            $fornecedor['ativo'] = $resultado['ativo'];
-            $fornecedor['tipo_servico'] = [
-                'id' => $resultado['tipo_servico_id'],
-                'nome' => $resultado['tipo_servico_nome'],
-            ];
 
             return $this->sucesso('Fornecedor localizado.', $fornecedor);
         }
         catch (Exception $e) {
-            return $this->erro('Houve um erro ao buscar a marca de peça: ' . $e->getMessage());
+            return $this->erro('Houve um erro ao buscar o fornecedor: ' . $e->getMessage());
         }
     }
 
