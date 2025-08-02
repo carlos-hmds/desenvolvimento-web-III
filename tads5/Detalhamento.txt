@@ -8,11 +8,11 @@ cake bake migration CreateAutenticacaos autenticacao:string[255] user_id:integer
 
 cake bake migration CreateTipoServicos tipo:string[120] ativo:string[1] created modified
 
-cake bake migration CreateFornecedors cnpj:string[18] nome:string[224] telefone:string[16] email:string[255] logradouro:string[180] numero:string[20] bairro:string[150] complemento:string?[100] cidade:string[200] estado:string[2] cep:string[10] ativo:string[1] created modified tipo_servico_id:integer
-
 cake bake migration CreateCategoriaPecas nome:string[180] ativo:string[1] created modified
 
 cake bake migration CreateMarcaPecas nome:string[180] ativo:string[1] created modified
+
+cake bake migration CreateFornecedors cnpj:string[18] nome:string[224] telefone:string[16] email:string[255] logradouro:string[180] numero:string[20] bairro:string[150] complemento:string?[100] cidade:string[200] estado:string[2] cep:string[10] ativo:string[1] created modified tipo_servico_id:integer
 
 cake bake migration CreatePecas nome:string[180] valor:decimal[10,2] garantia:integer[11] notaFiscal:integer[11] ativo:string[1] created modified marca_peca_id:integer? categoria_peca_id:integer fornecedor_id:integer
 

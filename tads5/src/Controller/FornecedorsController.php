@@ -52,6 +52,7 @@ class FornecedorsController extends AppController
             ->find()
             ->select([
                 'id' => 'Fornecedors.id',
+                'cnpj' => 'Fornecedors.cnpj',
                 'nome' => 'Fornecedors.nome',
                 'telefone' => 'Fornecedors.telefone',
                 'email' => 'Fornecedors.email',
