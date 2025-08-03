@@ -66,8 +66,8 @@ class PecasController extends AppController
             ->select([
                 'id' => 'Pecas.id',
                 'nome' => 'Pecas.nome',
-                'categoria_id' => 'Pecas.categoria_peca_id',
-                'marca_id' => 'Pecas.marca_peca_id',
+                'categoria_peca_id' => 'Pecas.categoria_peca_id',
+                'marca_peca_id' => 'Pecas.marca_peca_id',
                 'valor' => 'Pecas.valor',
                 'garantia' => 'Pecas.garantia',
                 'nota_fiscal' => 'Pecas.nota_fiscal',
