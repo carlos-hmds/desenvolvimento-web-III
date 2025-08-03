@@ -112,7 +112,8 @@ class FornecedorsTable extends Table
 
         $validator
             ->scalar('complemento')
-            ->maxLength('complemento', 100);
+            ->maxLength('complemento', 100)
+            ->allowEmptyString('complemento');
 
         $validator
             ->scalar('cidade')
