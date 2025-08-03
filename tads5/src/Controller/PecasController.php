@@ -40,6 +40,14 @@ class PecasController extends AppController
                 'conditions' => 'Fornecedors.id = Pecas.fornecedor_id',
             ]);
 
+        if ($this->request->is('POST')) {
+            $codigosPecas = $this->request->getData('pecas');
+
+            if (is_array($codigosPecas) && !empty($codigosPecas)) {
+                $busca = $busca->where(['Pecas.id IN' => $codigosPecas]);
+            }
+        }
+
         try {
             $pecas = $busca->toArray();
             return $this->sucesso('Peças listadas com sucesso.', $pecas);

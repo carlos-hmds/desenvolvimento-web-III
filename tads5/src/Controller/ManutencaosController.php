@@ -26,8 +26,9 @@ class ManutencaosController extends AppController
         $this->request->allowMethod('post');
 
         $dados = $this->request->getData();
-        $query = $this->Manutencaos
-            ->find()
+        $query = $this->Manutencaos->find();
+
+        $query = $query
             ->select([
                 'id' => 'Manutencaos.id',
                 'cnpj_fornecedor' => 'Fornecedors.cnpj',
@@ -39,7 +40,7 @@ class ManutencaosController extends AppController
                 'nota_fiscal' => 'Manutencaos.nota_fiscal',
                 'valor_manutencao' => 'Manutencaos.valor',
                 'data_manutencao' => 'Manutencaos.data',
-                'quantidade_pecas' => 'COUNT(*)',
+                'quantidade_pecas' => $query->func()->count('*'),
             ])
             ->join([
                 'table' => 'Fornecedors',
@@ -93,12 +94,58 @@ class ManutencaosController extends AppController
             return $this->erro('Informe o código da manutenção para buscá-la.');
         }
 
+        $busca = $this->Manutencaos
+            ->find()
+            ->select([
+                'id' => 'Manutencaos.id',
+                'descricao' => 'Manutencaos.descricao',
+                'data' => 'Manutencaos.data',
+                'valor' => 'Manutencaos.valor',
+                'veiculo_id' => 'Manutencaos.veiculo_id',
+                'fornecedor_id' => 'Manutencaos.fornecedor_id',
+                'nota_fiscal' => 'Manutencaos.nota_fiscal',
+                'ativo' => 'Manutencaos.ativo',
+                'created' => 'Manutencaos.created',
+                'modified' => 'Manutencaos.modified',
+
+                'item_manutencao_id' => 'ItemManutencaos.id',
+                'item_manutencao_peca_id' => 'ItemManutencaos.peca_id',
+                'item_manutencao_ativo' => 'ItemManutencaos.ativo',
+            ])
+            ->join([
+                'table' => 'ItemManutencaos',
+                'type' => 'LEFT',
+                'conditions' => 'ItemManutencaos.manutencao_id = Manutencaos.id',
+            ])
+            ->where(['Manutencaos.id' => $id]);
+
         try {
-            $manutencao = $this->Manutencaos->get($id, contain: ['ManutencaoItems']);
+            $resultado = $busca->toArray();
+
+            if (empty($resultado)) {
+                return $this->erro('Manutenção de código ' . $id . ' não encontrada.');
+            }
+
+            $manutencao['id'] = $resultado[0]['id'];
+            $manutencao['descricao'] = $resultado[0]['descricao'];
+            $manutencao['data'] = $resultado[0]['data'];
+            $manutencao['valor'] = $resultado[0]['valor'];
+            $manutencao['veiculo_id'] = $resultado[0]['veiculo_id'];
+            $manutencao['fornecedor_id'] = $resultado[0]['fornecedor_id'];
+            $manutencao['nota_fiscal'] = $resultado[0]['nota_fiscal'];
+            $manutencao['created'] = $resultado[0]['created'];
+            $manutencao['modified'] = $resultado[0]['modified'];
+
+            for ($i = 0; $i < sizeof($resultado); $i++) {
+                $manutencao['itens'][$i] = [
+                    'id' => $resultado[$i]['item_manutencao_id'],
+                    'manutencao_id' => $manutencao['id'],
+                    'peca_id' => $resultado[$i]['item_manutencao_peca_id'],
+                    'ativo' =>  $resultado[$i]['item_manutencao_ativo']
+                ];
+            }
+
             return $this->sucesso('Manutenção encontrada.', $manutencao);
-        }
-        catch (RecordNotFoundException) {
-            return $this->erro('Manutenção de código ' . $id . ' não encontrada.');
         }
         catch (Exception $e) {
             return $this->erro('Houve um erro ao consultar a manutenção: ' . $e->getMessage());
@@ -153,21 +200,21 @@ class ManutencaosController extends AppController
             return $this->erro('Informe o código da manutenção a ser corrigida.');
         }
 
-        if (empty($dados['manutencao_items'])) {
+        if (empty($dados['item_manutencaos'])) {
             return $this->erro('Deve haver ao menos uma peça vinculada à manutenção.');
         }
 
         $id = $dados['id'];
-        $itemManutencao = $dados['manutencao_items'];
+        $itemManutencao = $dados['item_manutencaos'];
 
         try {
             $this->conexao->begin();
             $manutencao = $this->Manutencaos->get($id, contain: ['ItemManutencaos']);
 
-            $idsManuPecas = array_filter(array_column($itemManutencao, 'id'));
+            $codigosItens = array_filter(array_column($itemManutencao, 'id'));
 
             foreach ($manutencao->get("item_manutencaos") as $itemManutencao) {
-                $vinculoIncluso = in_array($itemManutencao["id"], $idsManuPecas);
+                $vinculoIncluso = in_array($itemManutencao["id"], $codigosItens);
 
                 if (!$vinculoIncluso) {
                     $this->ItemManutencaos->delete($itemManutencao);
