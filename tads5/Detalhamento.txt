@@ -24,7 +24,7 @@ cake bake migration CreateVeiculos modelo:string[160] ano:integer[4] placa:strin
 
 cake bake migration CreateFrequenciaManutencaos tipo_metrica:string[20] frequencia:integer ativo:string[1] created modified tipo_veiculo_id:integer categoria_peca_id:integer
 
-cake bake migration CreateManutencaos descricao:string[256] data:date valor:decimal[10,2] nota_fiscal:integer ativo:string[1] created modified veiculo_id:integer fornecedor_id:integer
+cake bake migration CreateManutencaos descricao:string[256] data:date valor:decimal[10,2] nota_fiscal:integer quilometragem:decimal[10,2] ativo:string[1] created modified veiculo_id:integer fornecedor_id:integer
 
 cake bake migration CreateItemManutencaos ativo:string[1] created modified manutencao_id:integer peca_id:integer
 

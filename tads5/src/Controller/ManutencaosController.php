@@ -38,8 +38,9 @@ class ManutencaosController extends AppController
                 'placa_veiculo' => 'Veiculos.placa',
                 'nome_abreviado_fabricante' => 'Fabricantes.abreviado',
                 'nota_fiscal' => 'Manutencaos.nota_fiscal',
-                'valor_manutencao' => 'Manutencaos.valor',
-                'data_manutencao' => 'Manutencaos.data',
+                'valor' => 'Manutencaos.valor',
+                'data' => 'Manutencaos.data',
+                'quilometragem' => 'Manutencaos.quilometragem',
                 'quantidade_pecas' => $query->func()->count('*'),
             ])
             ->join([
@@ -104,18 +105,25 @@ class ManutencaosController extends AppController
                 'veiculo_id' => 'Manutencaos.veiculo_id',
                 'fornecedor_id' => 'Manutencaos.fornecedor_id',
                 'nota_fiscal' => 'Manutencaos.nota_fiscal',
+                'quilometragem' => 'Manutencaos.quilometragem',
                 'ativo' => 'Manutencaos.ativo',
                 'created' => 'Manutencaos.created',
                 'modified' => 'Manutencaos.modified',
 
-                'item_manutencao_id' => 'ItemManutencaos.id',
-                'item_manutencao_peca_id' => 'ItemManutencaos.peca_id',
-                'item_manutencao_ativo' => 'ItemManutencaos.ativo',
+                'item_manutencao_id' => 'Item_Manutencaos.id',
+                'item_manutencao_peca_id' => 'Item_Manutencaos.peca_id',
+                'peca_nome' => 'Pecas.nome',
+                'item_manutencao_ativo' => 'Item_Manutencaos.ativo',
             ])
             ->join([
-                'table' => 'ItemManutencaos',
+                'table' => 'Item_Manutencaos',
                 'type' => 'LEFT',
-                'conditions' => 'ItemManutencaos.manutencao_id = Manutencaos.id',
+                'conditions' => 'Item_Manutencaos.manutencao_id = Manutencaos.id',
+            ])
+            ->join([
+                'table' => 'Pecas',
+                'type' => 'LEFT',
+                'conditions' => 'Pecas.id = Item_Manutencaos.peca_id',
             ])
             ->where(['Manutencaos.id' => $id]);
 
@@ -133,6 +141,8 @@ class ManutencaosController extends AppController
             $manutencao['veiculo_id'] = $resultado[0]['veiculo_id'];
             $manutencao['fornecedor_id'] = $resultado[0]['fornecedor_id'];
             $manutencao['nota_fiscal'] = $resultado[0]['nota_fiscal'];
+            $manutencao['quilometragem'] = $resultado[0]['quilometragem'];
+            $manutencao['ativo'] = $resultado[0]['ativo'];
             $manutencao['created'] = $resultado[0]['created'];
             $manutencao['modified'] = $resultado[0]['modified'];
 
@@ -141,7 +151,8 @@ class ManutencaosController extends AppController
                     'id' => $resultado[$i]['item_manutencao_id'],
                     'manutencao_id' => $manutencao['id'],
                     'peca_id' => $resultado[$i]['item_manutencao_peca_id'],
-                    'ativo' =>  $resultado[$i]['item_manutencao_ativo']
+                    'peca_nome' => $resultado[$i]['peca_nome'],
+                    'ativo' =>  $resultado[$i]['item_manutencao_ativo'],
                 ];
             }
 

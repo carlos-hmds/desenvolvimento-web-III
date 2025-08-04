@@ -92,6 +92,11 @@ class ManutencaosTable extends Table
             ->notEmptyString('nota_fiscal');
 
         $validator
+            ->decimal('quilometragem')
+            ->requirePresence('quilometragem', 'create')
+            ->notEmptyString('quilometragem');
+
+        $validator
             ->scalar('ativo')
             ->maxLength('ativo', 1)
             ->notEmptyString('ativo');
